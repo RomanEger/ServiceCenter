@@ -2,10 +2,13 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using ServiceCenterApp.Models;
+using ServiceCenterApp.ViewModels;
+using ServiceCenterApp.Views;
 
 namespace ServiceCenterApp;
  
-public class Program
+public static class Program
 {
     [STAThread]
     public static void Main()
@@ -14,15 +17,15 @@ public class Program
             .ConfigureServices(services =>
             {
                 services.AddSingleton<App>();
-                services.AddSingleton<Window, MainWindow>();
-                //services.AddScoped<IRepository, Repository>();
+                services.AddScoped<AuthViewModel>();
                 services.AddSingleton<IConfigurationBuilder, ConfigurationBuilder>();
-                //services.AddScoped<MainViewModel>();
+                services.AddDbContext<ServiceCenterDbContext>();
+                services.AddSingleton<MainWindow>();
+                services.AddSingleton<AuthWindow>();
             })
             .Build();
         
         var app = host.Services.GetRequiredService<App>();
-        app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
         app.Run();
     }
 }

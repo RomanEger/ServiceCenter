@@ -1,0 +1,34 @@
+﻿<Page x:Class="ServiceCenterApp.Views.Auth.RegistrationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ServiceCenterApp.Views.Auth"
+      mc:Ignorable="d" 
+      Title="RegistrationPage">
+    <Page.Resources>
+        <ResourceDictionary Source="../../Styles.xaml"/>
+    </Page.Resources>
+
+    <Grid>
+        <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <TextBlock Text="Логин"/>
+            <TextBox Width="220"
+                 Margin="0 10"
+                 Text="{Binding UserForRegistration.Login, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="Пароль"/>
+            <TextBox Width="220"
+                 Margin="0 10"
+                 Text="{Binding UserForRegistration.Password, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button
+                Command="{Binding RegistrationCommand, AsyncState=True}"
+                Content="Зарегистрироваться"
+                Width="180"/>
+            <Button
+                Click="Button_Click"
+                Content="Есть аккаунт"
+                Width="180"/>
+        </StackPanel>
+    </Grid>
+</Page>
