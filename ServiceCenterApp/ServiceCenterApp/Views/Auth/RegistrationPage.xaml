@@ -21,13 +21,12 @@
             <TextBox Width="220"
                  Margin="0 10"
                  Text="{Binding UserForRegistration.Password, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="Роль"/>
+            <ComboBox Margin="0 10"
+                      ItemsSource="{Binding Roles}"/>
             <Button
                 Command="{Binding RegistrationCommand, AsyncState=True}"
-                Content="Зарегистрироваться"
-                Width="180"/>
-            <Button
-                Click="Button_Click"
-                Content="Есть аккаунт"
+                Content="Создать аккаунт"
                 Width="180"/>
         </StackPanel>
     </Grid>

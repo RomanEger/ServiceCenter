@@ -21,11 +21,19 @@ public class AuthViewModel : ViewModelBase
         LoginCommand = new MyCommand(Login);
         RegistrationCommand = new MyCommand(Registration);
         _authWindow = authWindow;
+        Roles = new List<string>()
+        {
+            "ADMIN",
+            "EMPLOYEE",
+            "CLIENT"
+        };
     }
  
     public User User { get; set; }
 
     public User UserForRegistration { get; set; }
+
+    public IEnumerable<string> Roles { get; set; }
 
     public void Notify(string info)
     {
@@ -46,8 +54,7 @@ public class AuthViewModel : ViewModelBase
             UserRole.Role = user.RoleId == 1 ?
                 RoleName.ADMIN :
                 user.RoleId == 2 ?
-                RoleName.EMPLOYEE :
-                RoleName.CLIENT;
+                RoleName.EMPLOYEE : null;
             _authWindow.Close();
         }
     }

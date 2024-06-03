@@ -9,6 +9,6 @@ namespace ServiceCenterApp
 {
     public static class UserRole
     {
-        public static RoleName Role;
+        public static RoleName? Role = null;
     }
 }
