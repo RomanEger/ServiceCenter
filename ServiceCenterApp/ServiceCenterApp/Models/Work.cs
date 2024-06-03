@@ -10,10 +10,11 @@ namespace ServiceCenterApp.Models
     {
         public int StatusId { get; set; }
         public string Name { get; set; }
-        public string Type { get; set; }
+        public int WorkTypeId { get; set; }
         public string? Description { get; set; }
         
         public Status? Status { get; set; } 
+        public WorkType? WorkType { get; set; }
         public ICollection<WorkDetail> WorkDetails { get; set; }
     }
 }
