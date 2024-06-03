@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ServiceCenterApp.Models;
 
@@ -10,9 +11,11 @@ using ServiceCenterApp.Models;
 namespace ServiceCenterApp.Migrations
 {
     [DbContext(typeof(ServiceCenterDbContext))]
-    partial class ServiceCenterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240603133846_UpdateSchema")]
+    partial class UpdateSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,32 +231,6 @@ namespace ServiceCenterApp.Migrations
                     b.ToTable("Works");
                 });
 
-            modelBuilder.Entity("ServiceCenterApp.Models.WorkDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DetailId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WorkId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DetailId");
-
-                    b.HasIndex("WorkId");
-
-                    b.ToTable("WorkDetail");
-                });
-
             modelBuilder.Entity("ServiceCenterApp.Models.Employee", b =>
                 {
                     b.HasOne("ServiceCenterApp.Models.Role", "Role")
@@ -322,25 +299,6 @@ namespace ServiceCenterApp.Migrations
                     b.Navigation("Status");
                 });
 
-            modelBuilder.Entity("ServiceCenterApp.Models.WorkDetail", b =>
-                {
-                    b.HasOne("ServiceCenterApp.Models.Detail", "Detail")
-                        .WithMany("WorkDetails")
-                        .HasForeignKey("DetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ServiceCenterApp.Models.Work", "Work")
-                        .WithMany("WorkDetails")
-                        .HasForeignKey("WorkId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Detail");
-
-                    b.Navigation("Work");
-                });
-
             modelBuilder.Entity("ServiceCenterApp.Models.Client", b =>
                 {
                     b.Navigation("UserWorks");
@@ -349,8 +307,6 @@ namespace ServiceCenterApp.Migrations
             modelBuilder.Entity("ServiceCenterApp.Models.Detail", b =>
                 {
                     b.Navigation("StockDetails");
-
-                    b.Navigation("WorkDetails");
                 });
 
             modelBuilder.Entity("ServiceCenterApp.Models.Employee", b =>
@@ -371,11 +327,6 @@ namespace ServiceCenterApp.Migrations
             modelBuilder.Entity("ServiceCenterApp.Models.Stock", b =>
                 {
                     b.Navigation("StockDetails");
-                });
-
-            modelBuilder.Entity("ServiceCenterApp.Models.Work", b =>
-                {
-                    b.Navigation("WorkDetails");
                 });
 #pragma warning restore 612, 618
         }

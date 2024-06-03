@@ -16,18 +16,18 @@ using System.Windows.Shapes;
 namespace ServiceCenterApp.Views.Auth
 {
     /// <summary>
-    /// Логика взаимодействия для LoginPage.xaml
+    /// Логика взаимодействия для RegistrationPage.xaml
     /// </summary>
-    public partial class LoginPage : Page
+    public partial class EmployeeRegistrationPage : Page
     {
-        public LoginPage()
+        public EmployeeRegistrationPage()
         {
             InitializeComponent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var page = new EmployeeRegistrationPage();
+            var page = new LoginPage();
             page.DataContext = DataContext;
             Navigation.Frame?.Navigate(page);
         }

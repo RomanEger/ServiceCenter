@@ -15,25 +15,22 @@ public class AuthViewModel : ViewModelBase
 
     public AuthViewModel(ServiceCenterDbContext dbContext, AuthWindow authWindow)
     {
-        User = new User();
-        UserForRegistration = new User();
+        User = new Employee();
+        EmployeeForRegistration = new Employee();
         _dbContext = dbContext;
         LoginCommand = new MyCommand(Login);
-        RegistrationCommand = new MyCommand(Registration);
+        EmployeeRegistrationCommand = new MyCommand(EmployeeRegistration);
         _authWindow = authWindow;
-        Roles = new List<string>()
-        {
-            "ADMIN",
-            "EMPLOYEE",
-            "CLIENT"
-        };
+        EmployeeRoles = ["ADMIN", "EMPLOYEE"];
     }
  
-    public User User { get; set; }
+    public Employee User { get; set; }
 
-    public User UserForRegistration { get; set; }
+    public Employee EmployeeForRegistration { get; set; }
 
-    public IEnumerable<string> Roles { get; set; }
+    public string[] EmployeeRoles { get; set; }
+
+    public string SelectedRole { get; set; }
 
     public void Notify(string info)
     {
@@ -42,11 +39,11 @@ public class AuthViewModel : ViewModelBase
 
     public ICommand LoginCommand { get; private set; }
     
-    public ICommand RegistrationCommand { get; private set; }
+    public ICommand EmployeeRegistrationCommand { get; private set; }
     
     private async void Login()
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Login == User.Login && u.Password == User.Password);
+        var user = await _dbContext.Employees.FirstOrDefaultAsync(u => u.Login == User.Login && u.Password == User.Password);
         if (user is null)
             Notify("Ошибка при входе");
         else
@@ -59,19 +56,27 @@ public class AuthViewModel : ViewModelBase
         }
     }
 
-    private async void Registration()
+    private async void EmployeeRegistration()
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Login == UserForRegistration.Login);
+        var user = await _dbContext.Employees.FirstOrDefaultAsync(u => u.Login == EmployeeForRegistration.Login);
         if (user is not null)
         {
             Notify("Логин занят");
         }
         else
         {
-            //клиент
-            UserForRegistration.RoleId = 3;
-            UserRole.Role = RoleName.CLIENT;
-            await _dbContext.Users.AddAsync(UserForRegistration);
+            if(SelectedRole == EmployeeRoles[0])
+            {
+                EmployeeForRegistration.RoleId = 1;
+                UserRole.Role = RoleName.ADMIN;
+            }
+            else if(SelectedRole == EmployeeRoles[1])
+            {
+                EmployeeForRegistration.RoleId = 2;
+                UserRole.Role = RoleName.EMPLOYEE;
+            }
+
+            await _dbContext.Employees.AddAsync(EmployeeForRegistration);
             await _dbContext.SaveChangesAsync();
             _authWindow.Close();
         }

@@ -1,4 +1,4 @@
-﻿<Page x:Class="ServiceCenterApp.Views.Auth.RegistrationPage"
+﻿<Page x:Class="ServiceCenterApp.Views.Auth.EmployeeRegistrationPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -16,16 +16,16 @@
             <TextBlock Text="Логин"/>
             <TextBox Width="220"
                  Margin="0 10"
-                 Text="{Binding UserForRegistration.Login, UpdateSourceTrigger=PropertyChanged}"/>
+                 Text="{Binding EmployeeForRegistration.Login, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Пароль"/>
             <TextBox Width="220"
                  Margin="0 10"
-                 Text="{Binding UserForRegistration.Password, UpdateSourceTrigger=PropertyChanged}"/>
+                 Text="{Binding EmployeeForRegistration.Password, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Роль"/>
             <ComboBox Margin="0 10"
-                      ItemsSource="{Binding Roles}"/>
+                      ItemsSource="{Binding EmployeeRoles}"/>
             <Button
-                Command="{Binding RegistrationCommand, AsyncState=True}"
+                Command="{Binding EmployeeRegistrationCommand, AsyncState=True}"
                 Content="Создать аккаунт"
                 Width="180"/>
         </StackPanel>

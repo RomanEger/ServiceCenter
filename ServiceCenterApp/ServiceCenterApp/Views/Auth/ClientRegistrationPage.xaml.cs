@@ -16,20 +16,13 @@ using System.Windows.Shapes;
 namespace ServiceCenterApp.Views.Auth
 {
     /// <summary>
-    /// Логика взаимодействия для RegistrationPage.xaml
+    /// Логика взаимодействия для ClientRegistrationPage.xaml
     /// </summary>
-    public partial class RegistrationPage : Page
+    public partial class ClientRegistrationPage : Page
     {
-        public RegistrationPage()
+        public ClientRegistrationPage()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var page = new LoginPage();
-            page.DataContext = DataContext;
-            Navigation.Frame?.Navigate(page);
         }
     }
 }
