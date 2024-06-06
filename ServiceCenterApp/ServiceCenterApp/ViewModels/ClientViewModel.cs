@@ -18,12 +18,39 @@ namespace ServiceCenterApp.ViewModels
         {
             _dbContext = dbContext;
             RegistrationCommand = new MyCommand(ClientRegistration);
+            SaveClientChangesCommand = new MyCommand(SaveChanges);
+            Task.Run(async () => Clients = await GetClients());
         }
 
-        public Client Client { get; set; } = new Client();
+        private Client _client = new Client();
 
+        public Client Client
+        {
+            get => _client;
+            set
+            {
+                _client = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private IEnumerable<Client> _clients;
+
+        public IEnumerable<Client> Clients
+        {
+            get => _clients;
+            set
+            {
+                _clients = value;
+                OnPropertyChanged();
+            }
+        }
         public ICommand RegistrationCommand { get; private set; }
+        
+        public ICommand SaveClientChangesCommand { get; private set; }
 
+        private async void SaveChanges() => await _dbContext.SaveChangesAsync();
+        
         private async void ClientRegistration()
         {
             var isClientExists = await _dbContext.Clients.AnyAsync(c => c.Login == Client.Login || c.PhoneNumber == Client.PhoneNumber);
@@ -38,5 +65,8 @@ namespace ServiceCenterApp.ViewModels
                 MessageBox.Show("Успешно");
             }
         }
+
+        private async Task<IEnumerable<Client>> GetClients() => 
+            await _dbContext.Clients.ToListAsync();
     }
 }
