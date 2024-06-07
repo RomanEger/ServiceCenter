@@ -22,13 +22,17 @@ namespace ServiceCenterApp.ViewModels
 
         public ICommand TimeSpentReportCommand { get; private set; }
 
+        public ICommand DetailsUsageReportCommand { get; private set; }
+
         public ReportViewModel(ServiceCenterDbContext dbContext) 
         {
             _dbContext = dbContext;
             CompletedWorksReportCommand = new MyCommand(CreateCompletedWorksReport);
             TimeSpentReportCommand = new MyCommand(CreateTimeSpentReport);
+            DetailsUsageReportCommand = new MyCommand(CreateDetailsUsageReport);
             Task.Run(async () => {
                 CompletedWorks = await GetWorkViewAsync();
+                DetailsViews = await GetDetailsViewsAsync();
             });
         }
 
