@@ -52,6 +52,26 @@ namespace ServiceCenterApp.ViewModels
             return worksList;
         }
 
+        private async Task<List<DetailsView>> GetDetailsViewsAsync()
+        {
+            var detailsList = await (
+                from workDetails in _dbContext.WorkDetails
+                join works in _dbContext.Works
+                on workDetails.WorkId equals works.Id
+                join details in _dbContext.Details
+                on workDetails.DetailId equals details.Id
+                select new DetailsView
+                {
+                    WorkName = works.Name,
+                    DetailName = details.Name,
+                    DetailPrice = details.Price,
+                    DetailCount = workDetails.Count,
+                    TotalCost = (workDetails.Count * details.Price)
+                }
+                ).ToListAsync();
+            return detailsList;
+        }
+
         private bool _isFileExist;
         public bool IsFileExist 
         {
@@ -64,6 +84,8 @@ namespace ServiceCenterApp.ViewModels
         }
 
         private List<WorkView> CompletedWorks { get; set; }
+
+        private List<DetailsView> DetailsViews { get; set; }
 
         private string GetPath(string fileName)
         {
@@ -147,6 +169,41 @@ namespace ServiceCenterApp.ViewModels
             docX.Save();
         }
 
+        public void CreateDetailsUsageReport()
+        {
+            var path = GetPath("отчет об использовании запасных частей");
 
+            using var docX = IsFileExist ? DocX.Load(path) : DocX.Create(path);
+
+            var head = docX.InsertParagraph($"Отчет об использовании запасных частей");
+
+            head.Alignment = Alignment.center;
+            head.FontSize(14);
+            head.Font("TimesNewRoman");
+
+            docX.InsertParagraph();
+
+            var table = docX.AddTable(DetailsViews.Count + 1, 8);
+            table.Alignment = Alignment.center;
+
+            table.Rows[0].Cells[0].Paragraphs.First().Append("Название работы");
+            table.Rows[0].Cells[1].Paragraphs.First().Append("Название детали");
+            table.Rows[0].Cells[2].Paragraphs.First().Append("Цена детали");
+            table.Rows[0].Cells[3].Paragraphs.First().Append("Кол-во деталей");
+            table.Rows[0].Cells[4].Paragraphs.First().Append("Сумма");
+
+            for (int i = 0; i < table.Rows.Count - 1; i++)
+            {
+                table.Rows[i + 1].Cells[0].Paragraphs.First().Append(DetailsViews[i].WorkName);
+                table.Rows[i + 1].Cells[1].Paragraphs.First().Append(DetailsViews[i].DetailName);
+                table.Rows[i + 1].Cells[2].Paragraphs.First().Append(DetailsViews[i].DetailPrice.ToString());
+                table.Rows[i + 1].Cells[3].Paragraphs.First().Append(DetailsViews[i].DetailCount.ToString());
+                table.Rows[i + 1].Cells[4].Paragraphs.First().Append(DetailsViews[i].TotalCost.ToString());
+            }
+
+            docX.InsertTable(table);
+
+            docX.Save();
+        }
     }
 }

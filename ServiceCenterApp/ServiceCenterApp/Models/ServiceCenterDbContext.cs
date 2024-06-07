@@ -12,6 +12,7 @@ public class ServiceCenterDbContext : DbContext
     public DbSet<Status> Statuses { get; set; }
     public DbSet<Work> Works { get; set; }
     public DbSet<WorkType> WorkTypes { get; set; }  
+    public DbSet<WorkDetail> WorkDetails { get; set; }
     public DbSet<UserWork> UserWorks { get; set; }
     public DbSet<Detail> Details { get; set; }
     public DbSet<Stock> Stocks { get; set; }
