@@ -1,0 +1,39 @@
+﻿<Page x:Class="ServiceCenterApp.Views.Requests.CreateRequest"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ServiceCenterApp.Views.Requests"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="CreateRequest">
+    <Grid>
+        <StackPanel Orientation="Vertical"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <TextBlock Text="Выберите клиента"
+                       HorizontalAlignment="Center"/>
+            <ComboBox Width="200"
+                      Name="cbClient"/>
+            <TextBlock Height="20"
+                       HorizontalAlignment="Center"
+                       TextDecorations="Underline"
+                       Cursor="Hand"
+                       MouseDown="btnAddClient_MouseDown"
+                       Name="btnAddClient"
+                       Margin="0 5 0 0"
+                       Text="Добавить клиента"/>
+            <TextBlock Text="Опишите проблему"
+                       Margin="0 20 0 0"
+                       HorizontalAlignment="Center"/>
+            <TextBox Width="300"
+                     Name="tbProblem"/>
+            <Button Content="Отправить заявку"
+                    Width="200"
+                    Name="btnSendRequest"
+                    Click="btnSendRequest_Click"
+                    Margin="0 50 0 0"
+                    Height="50"/>
+        </StackPanel>
+    </Grid>
+</Page>
