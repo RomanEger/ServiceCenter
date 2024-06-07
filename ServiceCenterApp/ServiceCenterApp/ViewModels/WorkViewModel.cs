@@ -56,7 +56,7 @@ namespace ServiceCenterApp.ViewModels
             await _dbContext.SaveChangesAsync();
         }
 
-        public ICommand AddWorkCommand;
+        public ICommand AddWorkCommand { get; private set; }
         
         //можно добавить фильтры по статусу и тд
     }
