@@ -1,4 +1,5 @@
 ﻿using ClassLibrary1;
+using Microsoft.EntityFrameworkCore;
 using ServiceCenterApp.Commands;
 using ServiceCenterApp.Models;
 using ServiceCenterApp.ReportViews;
@@ -15,14 +16,40 @@ namespace ServiceCenterApp.ViewModels
 {
     public class ReportViewModel : ViewModelBase
     {
+        private readonly ServiceCenterDbContext _dbContext;
+
         public ICommand CompletedWorksReportCommand { get; private set; }
 
         public ICommand TimeSpentReportCommand { get; private set; }
 
-        public ReportViewModel() 
+        public ReportViewModel(ServiceCenterDbContext dbContext) 
         {
+            _dbContext = dbContext;
             CompletedWorksReportCommand = new MyCommand(CreateCompletedWorksReport);
             TimeSpentReportCommand = new MyCommand(CreateTimeSpentReport);
+            Task.Run(async () => {
+                CompletedWorks = await GetWorkViewAsync();
+            });
+        }
+
+        private async Task<List<WorkView>> GetWorkViewAsync()
+        {
+            var worksList = await (
+                from works in _dbContext.Works
+                join types in _dbContext.WorkTypes
+                on works.WorkTypeId equals types.Id
+                where works.StatusId == 3
+                select new WorkView
+                {
+                    Name = works.Name,                   
+                    Description = works.Description ?? "",
+                    StartDate = works.StartDate,
+                    EndDate = works.EndDate ?? DateTime.UtcNow,
+                    TotalCost = works.TotalCost,
+                    TypeName = types.Type
+                }
+                ).ToListAsync();
+            return worksList;
         }
 
         private bool _isFileExist;
@@ -119,5 +146,7 @@ namespace ServiceCenterApp.ViewModels
 
             docX.Save();
         }
+
+
     }
 }
