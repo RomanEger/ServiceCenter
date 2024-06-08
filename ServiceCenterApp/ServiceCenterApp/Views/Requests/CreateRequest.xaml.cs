@@ -25,14 +25,5 @@ namespace ServiceCenterApp.Views.Requests
             InitializeComponent();
         }
 
-        private void btnSendRequest_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnAddClient_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
     }
 }

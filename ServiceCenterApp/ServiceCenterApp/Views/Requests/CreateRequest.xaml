@@ -15,14 +15,13 @@
                        HorizontalAlignment="Center"/>
             <ComboBox Width="200"
                       Name="cbClient"/>
-            <TextBlock Height="20"
+            <Button
                        HorizontalAlignment="Center"
-                       TextDecorations="Underline"
                        Cursor="Hand"
-                       MouseDown="btnAddClient_MouseDown"
+                       Command=""
                        Name="btnAddClient"
                        Margin="0 5 0 0"
-                       Text="Добавить клиента"/>
+                       Content="Добавить клиента"/>
             <TextBlock Text="Опишите проблему"
                        Margin="0 20 0 0"
                        HorizontalAlignment="Center"/>
@@ -31,8 +30,8 @@
             <Button Content="Отправить заявку"
                     Width="200"
                     Name="btnSendRequest"
-                    Click="btnSendRequest_Click"
                     Margin="0 50 0 0"
+                    Command=""
                     Height="50"/>
         </StackPanel>
     </Grid>

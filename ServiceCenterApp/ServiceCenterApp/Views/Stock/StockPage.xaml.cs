@@ -18,16 +18,11 @@ namespace ServiceCenterApp.Views.Stock
     /// <summary>
     /// Логика взаимодействия для Stock.xaml
     /// </summary>
-    public partial class Stock : Page
+    public partial class StockPage : Page
     {
-        public Stock()
+        public StockPage()
         {
             InitializeComponent();
-        }
-
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

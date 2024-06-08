@@ -42,7 +42,7 @@ namespace ServiceCenterApp.ViewModels
                 from works in _dbContext.Works
                 join types in _dbContext.WorkTypes
                 on works.WorkTypeId equals types.Id
-                where works.StatusId == 3
+                where works.StatusId == 3 && (works.StartDate.Month == DateTime.Now.Month || works.EndDate.Value.Month == DateTime.Now.Month)
                 select new WorkView
                 {
                     Name = works.Name,                   
@@ -64,6 +64,7 @@ namespace ServiceCenterApp.ViewModels
                 on workDetails.WorkId equals works.Id
                 join details in _dbContext.Details
                 on workDetails.DetailId equals details.Id
+                where works.StartDate.Month == DateTime.Now.Month || works.EndDate.Value.Month == DateTime.Now.Month
                 select new DetailsView
                 {
                     WorkName = works.Name,
@@ -75,6 +76,31 @@ namespace ServiceCenterApp.ViewModels
                 ).ToListAsync();
             return detailsList;
         }
+
+        private async Task<List<EmployeeEfficiency>> GetEmployeeEfficiency()
+        {
+            var list = await (
+                from userWorks in _dbContext.UserWorks
+                join works in _dbContext.Works
+                on userWorks.WorkId equals works.Id
+                join employees in _dbContext.Employees
+                on userWorks.EmployeeId equals employees.Id
+                where works.StartDate.Month == DateTime.Now.Month || works.EndDate.Value.Month == DateTime.Now.Month
+                select new EmployeeEfficiency
+                {
+                    EmployeeLogin = employees.Login,
+                    CompletedWorks = 1
+                }
+                ).ToListAsync();
+
+            var groupList = list.GroupBy( x => x.EmployeeLogin );
+
+
+            
+            return list;
+        }
+
+        record class Person(string Name, string Company);
 
         private bool _isFileExist;
         public bool IsFileExist 

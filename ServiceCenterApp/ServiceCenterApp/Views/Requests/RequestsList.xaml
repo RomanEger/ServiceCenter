@@ -16,6 +16,7 @@
               Name="RequestsDataGrid"
               RowBackground="Transparent"
               Background="Transparent"
+                      ItemsSource="{Binding }"
               BorderBrush="Transparent">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№ заявки"

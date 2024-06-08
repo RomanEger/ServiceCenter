@@ -1,4 +1,4 @@
-﻿<Page x:Class="ServiceCenterApp.Views.Stock.Stock"
+﻿<Page x:Class="ServiceCenterApp.Views.Stock.StockPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,14 +10,14 @@
 
     <Grid>
         <StackPanel HorizontalAlignment="Center"
-    VerticalAlignment="Top"
-    Orientation="Vertical">
+            VerticalAlignment="Top"
+            Orientation="Vertical">
             <DataGrid AutoGenerateColumns="False"
-      CanUserAddRows="False"
-      Name="StockDataGrid"
-      RowBackground="Transparent"
-      Background="Transparent"
-      BorderBrush="Transparent">
+              CanUserAddRows="False"
+              Name="StockDataGrid"
+              RowBackground="Transparent"
+              Background="Transparent"
+              BorderBrush="Transparent">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID детали"
                         Width="100"
@@ -35,11 +35,10 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Name="btnDelete"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        BorderBrush="Transparent"
-                        Click="btnDelete_Click"
-                        Content="Удалить"/>
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    BorderBrush="Transparent"
+                                    Content="Удалить"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

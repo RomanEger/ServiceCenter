@@ -21,10 +21,10 @@
         <StackPanel
             Background="GhostWhite"
                 Grid.Column="0">
-                <Button Content="Управление заявками"/>
-                <Button Content="Управление клиентами"/>
-                <Button Content="Управление складом"/>
-                <Button Content="Аналитика"/>
+                <Button Click="Button_Click" Content="Управление заявками"/>
+                <Button Click="Button_Click_1" Content="Управление клиентами"/>
+                <Button Click="Button_Click_2" Content="Управление складом"/>
+                <Button Click="Button_Click_3" Content="Отчеты и аналитика"/>
         </StackPanel>
         <GridSplitter
                 Grid.Column="0"
