@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ServiceCenterApp.Commands;
 using ServiceCenterApp.Models;
+using ServiceCenterApp.ReportViews;
 
 namespace ServiceCenterApp.ViewModels;
 
@@ -12,37 +13,65 @@ public class StockViewModel : ViewModelBase
     public StockViewModel(ServiceCenterDbContext dbContext)
     {
         _dbContext = dbContext;
-        Task.Run(async () => Details = await GetDetails());
+        Task.Run(async () => StockDetails = await GetDetails());
         SaveChangesCommand = new MyCommand(SaveChanges);
+        DeleteCommand = new MyCommand(Delete);
     }
 
-    private Detail _selectedDetail = new Detail();
+    private StockDetailView _selectedStockDetail = new StockDetailView();
 
-    public Detail SelectedDetail
+    public StockDetailView SelectedStockDetail
     {
-        get => _selectedDetail;
+        get => _selectedStockDetail;
         set
         {
-            _selectedDetail = value;
+            _selectedStockDetail = value;
             OnPropertyChanged();
         }
     }
 
-    private IEnumerable<Detail> _details;
+    private IEnumerable<StockDetailView> _stockDetails;
     
-    private IEnumerable<Detail> Details
+    private IEnumerable<StockDetailView> StockDetails
     {
-        get => _details;
+        get => _stockDetails;
         set
         {
-            _details = value;
+            _stockDetails = value;
             OnPropertyChanged();
         }
     }
 
     public ICommand SaveChangesCommand;
-    
+
+    public ICommand DeleteCommand;
+
     private async void SaveChanges() => _dbContext.SaveChangesAsync();
     
-    private async Task<IEnumerable<Detail>> GetDetails() => await _dbContext.Details.ToCompletedWorksAsync();
+    private async void Delete()
+    {
+        StockDetails.ToList().Remove(SelectedStockDetail);
+        var stockDetail = await _dbContext.StockDetails.FirstOrDefaultAsync(x => x.Id == SelectedStockDetail.Id);
+        if (stockDetail is null) return;
+        _dbContext.StockDetails.Remove(stockDetail);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    private async Task<IEnumerable<StockDetailView>> GetDetails()
+    {
+        var list = await(
+            from stockDetails in _dbContext.StockDetails
+            join stocks in _dbContext.Stocks
+            on stockDetails.StockId equals stocks.Id
+            join details in _dbContext.Details
+            on stockDetails.DetailId equals details.Id
+            select new StockDetailView
+            {
+                Id = stockDetails.Id,
+                StockName = stocks.Name,
+                DetailName = details.Name,
+                Count = stockDetails.CountDetail
+            }).ToListAsync();
+        return list;
+    }
 }

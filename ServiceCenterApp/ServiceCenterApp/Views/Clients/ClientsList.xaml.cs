@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceCenterApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,9 +26,17 @@ namespace ServiceCenterApp.Views.Clients
             InitializeComponent();
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var w = new ClientRegistrationWindow();
+            w.DataContext = this.DataContext;
+            w.ShowDialog();
+        }
+
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-
+            var dataContext = (ClientViewModel)DataContext;
+            dataContext.DeleteClientCommand.Execute(null);
         }
     }
 }

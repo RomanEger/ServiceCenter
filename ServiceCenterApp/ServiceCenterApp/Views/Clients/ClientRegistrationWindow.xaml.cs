@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ServiceCenterApp.Views.Auth
+namespace ServiceCenterApp.Views.Clients
 {
     /// <summary>
-    /// Логика взаимодействия для ClientRegistrationPage.xaml
+    /// Логика взаимодействия для ClientRegistrationWindow.xaml
     /// </summary>
-    public partial class ClientRegistrationPage : Page
+    public partial class ClientRegistrationWindow : Window
     {
-        public ClientRegistrationPage()
+        public ClientRegistrationWindow()
         {
             InitializeComponent();
         }

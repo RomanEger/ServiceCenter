@@ -3,6 +3,7 @@ using ServiceCenterApp.Commands;
 using ServiceCenterApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,8 @@ namespace ServiceCenterApp.ViewModels
             _dbContext = dbContext;
             RegistrationCommand = new MyCommand(ClientRegistration);
             SaveClientChangesCommand = new MyCommand(SaveChanges);
-            Task.Run(async () => Clients = await GetClients());
+            DeleteClientCommand = new MyCommand(DeleteClient);
+            Task.Run(async () => Clients = new ObservableCollection<Client>(await GetClients()));
         }
 
         private Client _client = new Client();
@@ -34,25 +36,29 @@ namespace ServiceCenterApp.ViewModels
             }
         }
 
-        private IEnumerable<Client> _clients;
-
-        public IEnumerable<Client> Clients
-        {
-            get => _clients;
-            set
-            {
-                _clients = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableCollection<Client> Clients { get; set; }
         public ICommand RegistrationCommand { get; private set; }
         
         public ICommand SaveClientChangesCommand { get; private set; }
 
+        public ICommand DeleteClientCommand { get; private set; }
+
         private async void SaveChanges() => await _dbContext.SaveChangesAsync();
         
+        private async void DeleteClient()
+        {
+            Clients.ToList().Remove(Client);
+            _dbContext.Clients.Remove(Client);
+            await _dbContext.SaveChangesAsync();
+        }
+
         private async void ClientRegistration()
         {
+            if(Client.PhoneNumber == null)
+            {
+                MessageBox.Show("Некорректный номер телефона");
+                return;
+            }
             var isClientExists = await _dbContext.Clients.AnyAsync(c => c.Login == Client.Login || c.PhoneNumber == Client.PhoneNumber);
             if (isClientExists)
             {

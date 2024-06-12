@@ -5,7 +5,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ServiceCenterApp.Views.Clients"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
       Title="ClientsList">
 
     <Grid>
@@ -13,7 +12,9 @@
     VerticalAlignment="Top"
     Orientation="Vertical">
             <DataGrid AutoGenerateColumns="False"
-      CanUserAddRows="False"
+                      ItemsSource="{Binding Clients, AsyncState=True}"
+                      SelectedItem="{Binding Client}"
+                      CanUserAddRows="False"
       Name="ClientsDataGrid"
       RowBackground="Transparent"
       Background="Transparent"
@@ -21,10 +22,10 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Логин"
                         Width="*"
-                        Binding="{Binding }"/>
+                        Binding="{Binding Login}"/>
                     <DataGridTextColumn Header="Номер телефона"
                         Width="*"
-                        Binding="{Binding }"/>
+                        Binding="{Binding PhoneNumber}"/>
 
                     <DataGridTemplateColumn Width="120">
                         <DataGridTemplateColumn.CellTemplate>
@@ -33,14 +34,19 @@
                         Background="Transparent"
                         BorderThickness="0"
                         BorderBrush="Transparent"
-                        Click="btnDelete_Click"
+                                        Click="btnDelete_Click"
                         Content="Удалить"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-
+            <Button Content="Добавить клиента"
+                    HorizontalAlignment="Center"
+                    Margin="15"
+                    Width="140"
+                    Height="30"
+                    Click="Button_Click"/>
         </StackPanel>
     </Grid>
 </Page>

@@ -13,30 +13,31 @@
             VerticalAlignment="Top"
             Orientation="Vertical">
             <DataGrid AutoGenerateColumns="False"
-              CanUserAddRows="False"
+                      ItemsSource="{Binding StockDetails}"
+                      SelectedItem="{Binding SelectedStockDetail}"
+                      CanUserAddRows="False"
               Name="StockDataGrid"
+                      IsReadOnly="True"
               RowBackground="Transparent"
               Background="Transparent"
               BorderBrush="Transparent">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID детали"
-                        Width="100"
-                        Binding="{Binding }"/>
-                    <DataGridTextColumn Header="Наименование"
+                    <DataGridTextColumn Header="Наименование детали"
                         Width="*"
-                        Binding="{Binding }"/>
+                        Binding="{Binding DetailName}"/>
                     <DataGridTextColumn Header="Количество"
                         Width="*"
-                        Binding="{Binding }"/>
-                    <DataGridTextColumn Header="Номер склада"
+                        Binding="{Binding Count}"/>
+                    <DataGridTextColumn Header="Наименование склада"
                         Width="*"
-                        Binding="{Binding }"/>
+                        Binding="{Binding StockName}"/>
                     <DataGridTemplateColumn Width="120">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Name="btnDelete"
                                     Background="Transparent"
                                     BorderThickness="0"
+                                        Click="btnDelete_Click"
                                     BorderBrush="Transparent"
                                     Content="Удалить"/>
                             </DataTemplate>

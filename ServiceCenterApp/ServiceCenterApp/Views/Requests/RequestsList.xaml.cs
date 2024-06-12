@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceCenterApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,14 +26,17 @@ namespace ServiceCenterApp.Views.Requests
             InitializeComponent();
         }
 
-        private void btnStatus_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+            var dataContext = (WorkViewModel)DataContext;
+            dataContext.DeleteCommand.Execute(null);
+        }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var createRequestPage = new CreateRequest();
+            createRequestPage.DataContext = this.DataContext;
+            Navigation.Frame.Navigate(createRequestPage);
         }
     }
 }

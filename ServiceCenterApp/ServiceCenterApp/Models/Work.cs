@@ -15,7 +15,9 @@ namespace ServiceCenterApp.Models
         public decimal TotalCost { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+        public int ClientId { get; set; }
 
+        public Client? Client { get; set; }
         public Status? Status { get; set; } 
         public WorkType? WorkType { get; set; }
         public ICollection<WorkDetail> WorkDetails { get; set; }

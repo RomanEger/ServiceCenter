@@ -24,25 +24,5 @@ namespace ServiceCenterApp.Views.Reports
         {
             InitializeComponent();
         }
-
-        private void btnDetailsReport_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnWorkReport_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnTimeReport_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnAnalytic_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

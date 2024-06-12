@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ServiceCenterApp.ViewModels;
+using ServiceCenterApp.Views.Clients;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,5 +27,11 @@ namespace ServiceCenterApp.Views.Requests
             InitializeComponent();
         }
 
+        private void btnAddClient_Click(object sender, RoutedEventArgs e)
+        {
+            var createClientPage = new ClientRegistrationWindow();
+            createClientPage.DataContext = new ClientViewModel(MainWindow.DbContext);
+            createClientPage.ShowDialog();
+        }
     }
 }

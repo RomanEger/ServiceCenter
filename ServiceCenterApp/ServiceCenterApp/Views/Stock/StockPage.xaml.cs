@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceCenterApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace ServiceCenterApp.Views.Stock
         public StockPage()
         {
             InitializeComponent();
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var dataContext = (StockViewModel)DataContext;
+            dataContext.DeleteCommand.Execute(null);
         }
     }
 }

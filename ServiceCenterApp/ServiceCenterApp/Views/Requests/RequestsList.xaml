@@ -16,33 +16,19 @@
               Name="RequestsDataGrid"
               RowBackground="Transparent"
               Background="Transparent"
-                      ItemsSource="{Binding }"
+              ItemsSource="{Binding Works}"
+              SelectedItem="{Binding SelectedWork}"
               BorderBrush="Transparent">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="№ заявки"
-                                Width="100"
-                                Binding="{Binding }"/>
                     <DataGridTextColumn Header="Дата обращения"
                                 Width="*"
-                                Binding="{Binding }"/>
+                                Binding="{Binding StartDate}"/>
                     <DataGridTextColumn Header="Описание проблемы"
                                 Width="*"
-                                Binding="{Binding }"/>
+                                Binding="{Binding Description}"/>
                     <DataGridTextColumn Header="Статус"
                                 Width="*"
-                                Binding="{Binding }"/>
-                    <DataGridTemplateColumn Width="120">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Name="btnStatus"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                BorderBrush="Transparent"
-                                Click="btnStatus_Click"
-                                Content="Статус"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                                Binding="{Binding StatusId}"/>
                     <DataGridTemplateColumn Width="120">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -57,7 +43,13 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-
+            <Button Content="Добавить заявку"
+                HorizontalAlignment="Center"
+                Margin="15"
+                Width="140"
+                Height="30"
+                Click="Button_Click"/>
         </StackPanel>
+        
     </Grid>
 </Page>

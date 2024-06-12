@@ -11,7 +11,9 @@ namespace ServiceCenterApp.Views;
 
 public partial class MainWindow : Window
 {
-    private ServiceCenterDbContext _dbContext { get;}
+    private static ServiceCenterDbContext _dbContext { get; set; }
+
+    public static ServiceCenterDbContext DbContext { get; }
 
     public MainWindow(ServiceCenterDbContext dbContext, AuthWindow authWindow)
     {
