@@ -18,6 +18,8 @@ namespace ServiceCenterApp.ViewModels
     {
         private readonly ServiceCenterDbContext _dbContext;
 
+        public ICommand AnalyticsCommand {  get; private set; }
+
         public ICommand CompletedWorksReportCommand { get; private set; }
 
         public ICommand TimeSpentReportCommand { get; private set; }
@@ -30,10 +32,43 @@ namespace ServiceCenterApp.ViewModels
             CompletedWorksReportCommand = new MyCommand(CreateCompletedWorksReport);
             TimeSpentReportCommand = new MyCommand(CreateTimeSpentReport);
             DetailsUsageReportCommand = new MyCommand(CreateDetailsUsageReport);
+            AnalyticsCommand = new MyCommand(CreateAnalyticsReport);
             Task.Run(async () => {
                 CompletedWorks = await GetWorkViewAsync();
                 DetailsViews = await GetDetailsViewsAsync();
+                AnalyticsViews = await GetAnalyticsDictAsync();
             });
+        }
+
+        private async Task<List<AnalyticsView>> GetAnalyticsDictAsync()
+        {
+            var list = await (
+                from userWorks in _dbContext.UserWorks
+                join users in _dbContext.Employees
+                on userWorks.EmployeeId equals users.Id
+                join works in _dbContext.Works
+                on userWorks.WorkId equals works.Id
+                where works.EndDate.Value.Month == DateTime.Now.Month
+                select new
+                {
+                    users.Login,
+                    works.TotalCost
+                }).ToListAsync();
+
+            var employees = list.GroupBy(x => x.Login);
+            
+            var resultList = new List<AnalyticsView>();
+            
+            foreach(var employee in employees)
+            {
+                decimal sum = 0;
+                foreach(var emp in employee) 
+                {
+                    sum += emp.TotalCost;
+                }
+                resultList.Add(new AnalyticsView() { Login = employee.Key, Sum = sum});
+            }
+            return resultList;
         }
 
         private async Task<List<WorkView>> GetWorkViewAsync()
@@ -100,8 +135,6 @@ namespace ServiceCenterApp.ViewModels
             return list;
         }
 
-        record class Person(string Name, string Company);
-
         private bool _isFileExist;
         public bool IsFileExist 
         {
@@ -116,6 +149,8 @@ namespace ServiceCenterApp.ViewModels
         private List<WorkView> CompletedWorks { get; set; }
 
         private List<DetailsView> DetailsViews { get; set; }
+
+        private List<AnalyticsView> AnalyticsViews { get; set; }
 
         private string GetPath(string fileName)
         {
@@ -229,6 +264,43 @@ namespace ServiceCenterApp.ViewModels
                 table.Rows[i + 1].Cells[2].Paragraphs.First().Append(DetailsViews[i].DetailPrice.ToString());
                 table.Rows[i + 1].Cells[3].Paragraphs.First().Append(DetailsViews[i].DetailCount.ToString());
                 table.Rows[i + 1].Cells[4].Paragraphs.First().Append(DetailsViews[i].TotalCost.ToString());
+            }
+
+            docX.InsertTable(table);
+
+            docX.Save();
+        }
+
+        public void CreateAnalyticsReport()
+        {
+            var path = GetPath("анализ эффективности работы сотрудников");
+
+            using var docX = IsFileExist ? DocX.Load(path) : DocX.Create(path);
+
+            var head = docX.InsertParagraph($"Анализ эффективности работы сотрудников");
+
+            head.Alignment = Alignment.center;
+            head.FontSize(14);
+            head.Font("TimesNewRoman");
+
+            docX.InsertParagraph();
+
+            var table = docX.AddTable(AnalyticsViews.Count + 1, 8);
+            table.Alignment = Alignment.center;
+
+            table.Rows[0].Cells[0].Paragraphs.First().Append("Работник");
+            table.Rows[0].Cells[1].Paragraphs.First().Append("Сделано работ на сумму");
+            table.Rows[0].Cells[2].Paragraphs.First().Append("Цель");
+            table.Rows[0].Cells[3].Paragraphs.First().Append("Эффективность (%)");
+
+            const decimal purpose = 200000;
+
+            for (int i = 0; i < table.Rows.Count - 1; i++)
+            {
+                table.Rows[i + 1].Cells[0].Paragraphs.First().Append(AnalyticsViews[i].Login);
+                table.Rows[i + 1].Cells[1].Paragraphs.First().Append(AnalyticsViews[i].Sum.ToString());
+                table.Rows[i + 1].Cells[2].Paragraphs.First().Append(purpose.ToString());
+                table.Rows[i + 1].Cells[3].Paragraphs.First().Append((purpose / AnalyticsViews[i].Sum * 100).ToString());
             }
 
             docX.InsertTable(table);
