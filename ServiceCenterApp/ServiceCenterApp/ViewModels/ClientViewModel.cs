@@ -15,12 +15,14 @@ namespace ServiceCenterApp.ViewModels
     public class ClientViewModel : ViewModelBase
     {
         private readonly ServiceCenterDbContext _dbContext;
+
         public ClientViewModel(ServiceCenterDbContext dbContext) 
         {
             _dbContext = dbContext;
             RegistrationCommand = new MyCommand(ClientRegistration);
             SaveClientChangesCommand = new MyCommand(SaveChanges);
             DeleteClientCommand = new MyCommand(DeleteClient);
+            ClientsList = new ObservableCollection<string>(GetClientsString());
             Task.Run(async () => Clients = new ObservableCollection<Client>(await GetClients()));
         }
 
@@ -36,7 +38,22 @@ namespace ServiceCenterApp.ViewModels
             }
         }
 
+        private string _clientStr = "";
+
+        public string ClientStr
+        {
+            get => _clientStr;
+            set
+            {
+                _clientStr = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<Client> Clients { get; set; }
+
+        public ObservableCollection<string> ClientsList { get; set; }
+
         public ICommand RegistrationCommand { get; private set; }
         
         public ICommand SaveClientChangesCommand { get; private set; }
@@ -54,6 +71,12 @@ namespace ServiceCenterApp.ViewModels
 
         private async void ClientRegistration()
         {
+            Client = await _dbContext.Clients.FirstOrDefaultAsync(x => x.Login == ClientStr);
+            if(Client == null)
+            {
+                MessageBox.Show("Клиент не найден");
+                return;
+            }
             if(Client.PhoneNumber == null)
             {
                 MessageBox.Show("Некорректный номер телефона");
@@ -74,5 +97,8 @@ namespace ServiceCenterApp.ViewModels
 
         private async Task<IEnumerable<Client>> GetClients() => 
             await _dbContext.Clients.ToListAsync();
+
+        private IEnumerable<string> GetClientsString() => 
+            _dbContext.Clients.Select( x => x.Login).ToList();
     }
 }

@@ -11,7 +11,7 @@ public class ServiceCenterDbContext : DbContext
     public DbSet<Role> Roles { get; set; }
     public DbSet<Status> Statuses { get; set; }
     public DbSet<Work> Works { get; set; }
-    public DbSet<WorkType> WorkTypes { get; set; }  
+    public DbSet<WorkType> WorkTypes { get; set; }
     public DbSet<WorkDetail> WorkDetails { get; set; }
     public DbSet<UserWork> UserWorks { get; set; }
     public DbSet<Detail> Details { get; set; }
@@ -36,7 +36,14 @@ public class ServiceCenterDbContext : DbContext
                 v => (StatusName)Enum.Parse(typeof(StatusName), v))
             .HasMaxLength(15);
     }
-    
+
+    public ServiceCenterDbContext()
+    {
+        //comment after init db
+        Database.Migrate();
+        //ypa
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var config = new ConfigurationBuilder()

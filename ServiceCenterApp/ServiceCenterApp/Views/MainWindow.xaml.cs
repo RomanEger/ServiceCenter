@@ -13,13 +13,13 @@ public partial class MainWindow : Window
 {
     private static ServiceCenterDbContext _dbContext { get; set; }
 
-    public static ServiceCenterDbContext DbContext { get; }
+    public static ServiceCenterDbContext DbContext { get => _dbContext; set => _dbContext = value; }
 
     public MainWindow(ServiceCenterDbContext dbContext, AuthWindow authWindow)
     {
         InitializeComponent();
         WindowState = WindowState.Maximized;
-        _dbContext = dbContext;
+        DbContext = dbContext;
         authWindow.ShowDialog();
         if (UserRole.Role == null)
         {

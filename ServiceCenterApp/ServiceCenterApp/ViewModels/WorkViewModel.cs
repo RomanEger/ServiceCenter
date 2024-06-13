@@ -18,12 +18,9 @@ namespace ServiceCenterApp.ViewModels
         public WorkViewModel(ServiceCenterDbContext dbContext) 
         { 
             _dbContext = dbContext;
-            Task.Run(async () => 
-            { 
-                Works = await GetWorks();
-                Clients = await GetClients();
-                WorkTypes = await GetWorkTypes();
-            });
+            Works = GetWorks();
+            Clients = GetClients();
+            WorkTypes = GetWorkTypes();
             AddWorkCommand = new MyCommand(AddWork);
             DeleteCommand = new MyCommand(DeleteWork);
         }
@@ -98,16 +95,16 @@ namespace ServiceCenterApp.ViewModels
             }
         }
 
-        private async Task<IEnumerable<Work>> GetWorks() =>
-            await _dbContext.Works.ToListAsync();
+        private IEnumerable<Work> GetWorks() =>
+            _dbContext.Works.ToList();
 
-        private async Task<IEnumerable<string>> GetClients() =>
-            await _dbContext.Clients.Select(x => x.Login + " | " + x.PhoneNumber).ToListAsync();
+        private IEnumerable<string> GetClients() =>
+            _dbContext.Clients.Select(x => x.Login + " | " + x.PhoneNumber).ToList();
 
-        private async Task<IEnumerable<string>> GetWorkTypes() =>
-            await _dbContext.WorkTypes.Select(x => x.Type).ToListAsync();
+        private IEnumerable<string> GetWorkTypes() =>
+            _dbContext.WorkTypes.Select(x => x.Type).ToList();
 
-        private async void AddWork()
+        private void AddWork()
         {
             if (string.IsNullOrWhiteSpace(SelectedWork.Name))
             {
@@ -116,7 +113,7 @@ namespace ServiceCenterApp.ViewModels
             }
 
             var arr = Client.Split(" | ");
-            var client = await _dbContext.Clients.FirstOrDefaultAsync(x => x.Login == arr[0]);
+            var client = _dbContext.Clients.FirstOrDefault(x => x.Login == arr[0]);
 
             if(client is null)
             {
@@ -124,7 +121,7 @@ namespace ServiceCenterApp.ViewModels
                 return;
             }
 
-            var workType = await _dbContext.WorkTypes.FirstOrDefaultAsync(x => x.Type == WorkType);
+            var workType = _dbContext.WorkTypes.FirstOrDefault(x => x.Type == WorkType);
             if (workType is null)
             {
                 MessageBox.Show("Тип работ не найден");
@@ -137,15 +134,15 @@ namespace ServiceCenterApp.ViewModels
             SelectedWork.StartDate = DateTime.Now;
             SelectedWork.ClientId = client.Id;
 
-            await _dbContext.Works.AddAsync(SelectedWork);
-            await _dbContext.SaveChangesAsync();
+            _dbContext.Works.Add(SelectedWork);
+            _dbContext.SaveChanges();
         }
 
-        private async void DeleteWork()
+        private void DeleteWork()
         {
             Works.ToList().Remove(SelectedWork);
             _dbContext.Works.Remove(SelectedWork);
-            await _dbContext.SaveChangesAsync();
+            _dbContext.SaveChanges();
         }
 
         public ICommand AddWorkCommand { get; private set; }

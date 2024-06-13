@@ -14,8 +14,8 @@
             <TextBlock Text="Выберите клиента"
                        HorizontalAlignment="Center"/>
             <ComboBox Width="200"
-                      ItemsSource="{Binding Clients}"
-                      SelectedItem="{Binding Client}"
+                      ItemsSource="{Binding ClientsList}"
+                      SelectedItem="{Binding ClientStr}"
                       Name="cbClient"/>
             <Button
                        HorizontalAlignment="Center"
