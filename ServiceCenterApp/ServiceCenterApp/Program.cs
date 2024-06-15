@@ -1,10 +1,8 @@
-﻿using System.Windows;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceCenterApp.Models;
 using ServiceCenterApp.ViewModels;
-using ServiceCenterApp.Views;
 
 namespace ServiceCenterApp;
  
@@ -20,8 +18,6 @@ public static class Program
                 services.AddScoped<AuthViewModel>();
                 services.AddSingleton<IConfigurationBuilder, ConfigurationBuilder>();
                 services.AddDbContext<ServiceCenterDbContext>();
-                services.AddSingleton<MainWindow>();
-                services.AddSingleton<AuthWindow>();
             })
             .Build();
         

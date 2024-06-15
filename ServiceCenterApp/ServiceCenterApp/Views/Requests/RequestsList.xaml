@@ -20,9 +20,12 @@
               SelectedItem="{Binding SelectedWork}"
               BorderBrush="Transparent">
                 <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название"
+                                        Width="*"
+                                        Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Дата обращения"
-                                Width="*"
-                                Binding="{Binding StartDate}"/>
+                                        Width="*"
+                                        Binding="{Binding StartDate}"/>
                     <DataGridTextColumn Header="Описание проблемы"
                                 Width="*"
                                 Binding="{Binding Description}"/>

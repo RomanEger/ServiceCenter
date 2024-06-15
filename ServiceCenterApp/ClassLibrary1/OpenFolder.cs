@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace ClassLibrary1;
+﻿namespace ClassLibrary1;
 
 public class OpenFolder
 {

@@ -5,7 +5,6 @@ using ServiceCenterApp.Views.Reports;
 using ServiceCenterApp.Views.Requests;
 using ServiceCenterApp.Views.Stock;
 using System.Windows;
-using System.Windows.Input;
 
 namespace ServiceCenterApp.Views;
 
@@ -15,11 +14,12 @@ public partial class MainWindow : Window
 
     public static ServiceCenterDbContext DbContext { get => _dbContext; set => _dbContext = value; }
 
-    public MainWindow(ServiceCenterDbContext dbContext, AuthWindow authWindow)
+    public MainWindow(ServiceCenterDbContext dbContext)
     {
         InitializeComponent();
         WindowState = WindowState.Maximized;
         DbContext = dbContext;
+        var authWindow = new AuthWindow(dbContext);
         authWindow.ShowDialog();
         if (UserRole.Role == null)
         {

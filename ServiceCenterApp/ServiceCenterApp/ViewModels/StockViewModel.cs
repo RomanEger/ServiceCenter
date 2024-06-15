@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
 using ServiceCenterApp.Commands;
 using ServiceCenterApp.Models;
@@ -13,7 +14,11 @@ public class StockViewModel : ViewModelBase
     public StockViewModel(ServiceCenterDbContext dbContext)
     {
         _dbContext = dbContext;
-        Task.Run(async () => StockDetails = await GetDetails());
+        StockDetails = new ObservableCollection<StockDetailView>( GetDetails());
+        if (StockDetails.Any(x => x.Count < 5))
+        {
+            Info = "Необходимо пополнить запасы!";
+        }
         SaveChangesCommand = new MyCommand(SaveChanges);
         DeleteCommand = new MyCommand(Delete);
     }
@@ -29,18 +34,10 @@ public class StockViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
-
-    private IEnumerable<StockDetailView> _stockDetails;
     
-    private IEnumerable<StockDetailView> StockDetails
-    {
-        get => _stockDetails;
-        set
-        {
-            _stockDetails = value;
-            OnPropertyChanged();
-        }
-    }
+    public string Info { get; set; }
+    
+    public ObservableCollection<StockDetailView> StockDetails { get; set; }
 
     public ICommand SaveChangesCommand;
 
@@ -57,9 +54,9 @@ public class StockViewModel : ViewModelBase
         await _dbContext.SaveChangesAsync();
     }
 
-    private async Task<IEnumerable<StockDetailView>> GetDetails()
+    private IEnumerable<StockDetailView> GetDetails()
     {
-        var list = await(
+        var list = (
             from stockDetails in _dbContext.StockDetails
             join stocks in _dbContext.Stocks
             on stockDetails.StockId equals stocks.Id
@@ -71,7 +68,7 @@ public class StockViewModel : ViewModelBase
                 StockName = stocks.Name,
                 DetailName = details.Name,
                 Count = stockDetails.CountDetail
-            }).ToListAsync();
+            }).ToList();
         return list;
     }
 }

@@ -12,15 +12,15 @@
         <StackPanel HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Orientation="Vertical">
+            <TextBlock HorizontalAlignment="Center" Foreground="OrangeRed" Text="{Binding Info}" />
             <DataGrid AutoGenerateColumns="False"
                       ItemsSource="{Binding StockDetails}"
                       SelectedItem="{Binding SelectedStockDetail}"
                       CanUserAddRows="False"
-              Name="StockDataGrid"
                       IsReadOnly="True"
-              RowBackground="Transparent"
-              Background="Transparent"
-              BorderBrush="Transparent">
+                      RowBackground="Transparent"
+                      Background="Transparent"
+                      BorderBrush="Transparent">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Наименование детали"
                         Width="*"

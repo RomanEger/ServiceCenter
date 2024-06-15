@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ServiceCenterApp.Models
 {
@@ -27,6 +22,6 @@ namespace ServiceCenterApp.Models
             }
         }
 
-        public ICollection<UserWork> UserWorks { get; set; }
+        public ICollection<Work> Works { get; set; }
     }
 }

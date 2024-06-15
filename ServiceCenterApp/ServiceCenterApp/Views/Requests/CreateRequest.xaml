@@ -14,14 +14,13 @@
             <TextBlock Text="Выберите клиента"
                        HorizontalAlignment="Center"/>
             <ComboBox Width="200"
-                      ItemsSource="{Binding ClientsList}"
-                      SelectedItem="{Binding ClientStr}"
+                      ItemsSource="{Binding Clients}"
+                      SelectedItem="{Binding Client}"
                       Name="cbClient"/>
             <Button
                        HorizontalAlignment="Center"
                        Cursor="Hand"
                        Click="btnAddClient_Click"
-                       Name="btnAddClient"
                        Margin="0 5 0 0"
                        Content="Добавить клиента"/>
             
@@ -51,9 +50,8 @@
 
             <Button Content="Отправить заявку"
                     Width="200"
-                    Name="btnSendRequest"
                     Margin="0 50 0 0"
-                    Command="{Binding }"
+                    Command="{Binding AddWorkCommand}"
                     Height="50"/>
         </StackPanel>
     </Grid>

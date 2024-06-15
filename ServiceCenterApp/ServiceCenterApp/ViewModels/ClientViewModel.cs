@@ -1,12 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServiceCenterApp.Commands;
 using ServiceCenterApp.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -23,7 +18,7 @@ namespace ServiceCenterApp.ViewModels
             SaveClientChangesCommand = new MyCommand(SaveChanges);
             DeleteClientCommand = new MyCommand(DeleteClient);
             ClientsList = new ObservableCollection<string>(GetClientsString());
-            Task.Run(async () => Clients = new ObservableCollection<Client>(await GetClients()));
+            Clients = new ObservableCollection<Client>(GetClients());
         }
 
         private Client _client = new Client();
@@ -71,10 +66,9 @@ namespace ServiceCenterApp.ViewModels
 
         private async void ClientRegistration()
         {
-            Client = await _dbContext.Clients.FirstOrDefaultAsync(x => x.Login == ClientStr);
-            if(Client == null)
+            if(Client.Login == null)
             {
-                MessageBox.Show("Клиент не найден");
+                MessageBox.Show("Некорректный логин");
                 return;
             }
             if(Client.PhoneNumber == null)
@@ -95,8 +89,8 @@ namespace ServiceCenterApp.ViewModels
             }
         }
 
-        private async Task<IEnumerable<Client>> GetClients() => 
-            await _dbContext.Clients.ToListAsync();
+        private IEnumerable<Client> GetClients() => 
+            _dbContext.Clients.ToList();
 
         private IEnumerable<string> GetClientsString() => 
             _dbContext.Clients.Select( x => x.Login).ToList();
