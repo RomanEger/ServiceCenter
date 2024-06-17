@@ -31,7 +31,11 @@ namespace ServiceCenterApp.Views.Requests
 
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
-            //var page = new ChangeRequest
+            var page = new RequestChange
+            {
+                DataContext = this.DataContext
+            };
+            Navigation.Frame.Navigate(page);
         }
     }
 }
