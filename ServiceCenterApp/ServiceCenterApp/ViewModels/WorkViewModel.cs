@@ -100,6 +100,18 @@ namespace ServiceCenterApp.ViewModels
             }
         }
 
+        private StockDetailView _selectedStockDetail = new StockDetailView();
+
+        public StockDetailView SelectedStockDetail
+        {
+            get => _selectedStockDetail;
+            set
+            {
+                _selectedStockDetail = value;
+                OnPropertyChanged();
+            }
+        }
+
         private string _client;
         public string Client
         {
