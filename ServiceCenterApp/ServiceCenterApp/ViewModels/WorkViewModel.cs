@@ -160,7 +160,7 @@ namespace ServiceCenterApp.ViewModels
         }
 
         private IEnumerable<Work> GetWorks() =>
-            _dbContext.Works;
+            _dbContext.Works.ToList();
 
         private IEnumerable<string> GetClients() =>
             _dbContext.Clients.Select(x => x.Login + " | " + x.PhoneNumber);
