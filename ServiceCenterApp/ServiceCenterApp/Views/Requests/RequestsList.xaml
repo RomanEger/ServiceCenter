@@ -35,12 +35,24 @@
                     <DataGridTemplateColumn Width="120">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
+                                <Button Name="btnChange"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    BorderBrush="Transparent"
+                                    Click="btnChange_Click"
+                                    Content="Изменить"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
                                 <Button Name="btnDelete"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                BorderBrush="Transparent"
-                                Click="btnDelete_Click"
-                                Content="Удалить"/>
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    BorderBrush="Transparent"
+                                    Click="btnDelete_Click"
+                                    Content="Удалить"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

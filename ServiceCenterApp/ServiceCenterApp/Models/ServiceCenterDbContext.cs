@@ -39,9 +39,7 @@ public class ServiceCenterDbContext : DbContext
 
     public ServiceCenterDbContext()
     {
-        //comment after init db
         Database.Migrate();
-        //ypa
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

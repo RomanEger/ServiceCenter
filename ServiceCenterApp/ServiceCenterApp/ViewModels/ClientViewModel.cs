@@ -85,6 +85,7 @@ namespace ServiceCenterApp.ViewModels
             {
                 await _dbContext.AddAsync(Client);
                 await _dbContext.SaveChangesAsync();
+                Clients.Add(Client);
                 MessageBox.Show("Успешно");
             }
         }

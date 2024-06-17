@@ -28,5 +28,10 @@ namespace ServiceCenterApp.Views.Requests
             };
             Navigation.Frame.Navigate(createRequestPage);
         }
+
+        private void btnChange_Click(object sender, RoutedEventArgs e)
+        {
+            //var page = new ChangeRequest
+        }
     }
 }

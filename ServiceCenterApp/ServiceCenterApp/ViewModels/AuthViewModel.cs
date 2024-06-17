@@ -75,7 +75,7 @@ public class AuthViewModel : ViewModelBase
                 EmployeeForRegistration.RoleId = 2;
                 UserRole.Role = RoleName.EMPLOYEE;
             }
-
+            MainWindow.Employee = user;
             await _dbContext.Employees.AddAsync(EmployeeForRegistration);
             await _dbContext.SaveChangesAsync();
             _authWindow.Close();

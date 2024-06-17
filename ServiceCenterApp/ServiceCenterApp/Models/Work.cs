@@ -10,6 +10,7 @@
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int ClientId { get; set;}
+        public string? WhatWasDone { get; set; }
 
         public Client? Client { get; set; }
         public Status? Status { get; set; } 

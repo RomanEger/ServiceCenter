@@ -14,6 +14,8 @@ public partial class MainWindow : Window
 
     public static ServiceCenterDbContext DbContext { get => _dbContext; set => _dbContext = value; }
 
+    public static Employee Employee { get; set; }
+
     public MainWindow(ServiceCenterDbContext dbContext)
     {
         InitializeComponent();
