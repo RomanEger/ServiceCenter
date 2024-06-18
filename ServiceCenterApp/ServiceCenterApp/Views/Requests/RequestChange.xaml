@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ServiceCenterApp.Views.Requests"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="500" d:DesignWidth="800"
       Title="RequestChange">
 
     <Grid>
@@ -15,7 +15,7 @@
                     Margin="20">
             <TextBlock Text="Клиент"
                        HorizontalAlignment="Center"/>
-            <TextBox Width="200" IsReadOnly="True" Text="{Binding Client}"/>
+            <TextBox Width="200" IsReadOnly="True" Text="{Binding SelectedClient}"/>
             <StackPanel DataContext="{Binding SelectedWork}">
                 <TextBlock Text="Название заявки"
            HorizontalAlignment="Center"/>
@@ -23,13 +23,18 @@
                 <TextBlock Text="Проблема"
            HorizontalAlignment="Center"/>
                 <TextBox Width="200" IsReadOnly="True" Text="{Binding Description}"/>
+                <TextBlock Text="Что было сделано" HorizontalAlignment="Center"/>
+                <TextBox Text="{Binding WhatWasDone, UpdateSourceTrigger=PropertyChanged}" 
+                         Width="450" 
+                         MaxHeight="140"
+                         TextWrapping="Wrap"/>
             </StackPanel>
             <TextBlock Text="Тип работы"
            HorizontalAlignment="Center"/>
-            <TextBox Width="200" IsReadOnly="True" Text="{Binding WorkType}"/>
-
+            <TextBox Width="200" IsReadOnly="True" Text="{Binding SelectedWorkType}"/>
+            
             <DataGrid AutoGenerateColumns="False"
-                      ItemsSource="{Binding StockDetails}"
+                      ItemsSource="{Binding StockDetailsByWork}"
                       SelectedItem="{Binding SelectedStockDetail}"
                       CanUserAddRows="False"
                       Height="180"
@@ -40,32 +45,34 @@
                       BorderBrush="Transparent">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Наименование детали"
-             Width="*"
-             Binding="{Binding DetailName}"/>
+                         Width="*"
+                         Binding="{Binding DetailName}"/>
                     <DataGridTextColumn Header="Количество"
-             Width="*"
-             Binding="{Binding Count}"/>
-                    <DataGridTextColumn Header="Наименование склада"
-             Width="*"
-             Binding="{Binding StockName}"/>
+                         Width="*"
+                         Binding="{Binding Count}"/>
                     <DataGridTemplateColumn Width="120">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Name="btnDelete"
-                         Background="Transparent"
-                         BorderThickness="0"
-                             Click="btnDelete_Click"
-                         BorderBrush="Transparent"
-                         Content="Удалить"/>
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         Click="btnDelete_Click"
+                                         BorderBrush="Transparent"
+                                         Content="Удалить"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Content="Добавить"
-                    Click="Button_Click"
+            
+            <Button Content="Добавить запчасть"
+                    Click="ButtonBase_OnClick"
                     Width="150"/>
 
+            <CheckBox Content="Завершено"
+                      IsChecked="{Binding IsDone, UpdateSourceTrigger=PropertyChanged}"
+                      HorizontalAlignment="Center"/>
+            
             <Button Content="Сохранить"
                     Command="{Binding UpdateCommand}"
                     Width="150"

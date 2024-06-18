@@ -48,10 +48,13 @@ public class AuthViewModel : ViewModelBase
             Notify("Ошибка при входе");
         else
         {
-            UserRole.Role = user.RoleId == 1 ?
-                RoleName.ADMIN :
-                user.RoleId == 2 ?
-                RoleName.EMPLOYEE : null;
+            UserRole.Role = user.RoleId switch
+            {
+                1 => RoleName.ADMIN,
+                2 => RoleName.EMPLOYEE,
+                _ => null
+            };
+            MainWindow.Employee = user;
             _authWindow.Close();
         }
     }
@@ -75,9 +78,9 @@ public class AuthViewModel : ViewModelBase
                 EmployeeForRegistration.RoleId = 2;
                 UserRole.Role = RoleName.EMPLOYEE;
             }
-            MainWindow.Employee = user;
             await _dbContext.Employees.AddAsync(EmployeeForRegistration);
             await _dbContext.SaveChangesAsync();
+            MainWindow.Employee = EmployeeForRegistration;
             _authWindow.Close();
         }
     }

@@ -30,12 +30,16 @@ namespace ServiceCenterApp.Views.Requests
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             var vm = (WorkViewModel)DataContext;
-            vm.DeleteCommand.Execute(null);
+            vm.DeleteFromWorkCommand.Execute(null);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-
+            var window = new AddDetailWork()
+            {
+                DataContext = this.DataContext
+            };
+            window.ShowDialog();
         }
     }
 }
