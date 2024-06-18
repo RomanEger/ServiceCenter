@@ -3,9 +3,9 @@ using ServiceCenterApp.ViewModels;
 
 namespace ServiceCenterApp.Views.Stock;
 
-public partial class StockAdd : Window
+public partial class StockChange : Window
 {
-    public StockAdd()
+    public StockChange()
     {
         InitializeComponent();
     }
@@ -13,7 +13,7 @@ public partial class StockAdd : Window
     private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
     {
         var vm = (StockViewModel)DataContext;
-        vm.AddStockDetailCommand.Execute(null);
+        
         this.Close();
     }
 }
