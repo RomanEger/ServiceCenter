@@ -17,6 +17,7 @@
                       ItemsSource="{Binding StockDetails}"
                       SelectedItem="{Binding SelectedStockDetail}"
                       CanUserAddRows="False"
+                      Height="300"
                       IsReadOnly="True"
                       RowBackground="Transparent"
                       Background="Transparent"
@@ -43,9 +44,27 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnDelete"
+                Background="Transparent"
+                BorderThickness="0"
+                    Click="btnDelete_Click"
+                BorderBrush="Transparent"
+                Content="Редактировать"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <Button Width="100"
+                        Margin="10"
+                        Content="Добавить"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>
