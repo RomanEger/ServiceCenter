@@ -1,4 +1,5 @@
-﻿using ClassLibrary1;
+﻿using System.Windows.Forms;
+using ClassLibrary1;
 using Microsoft.EntityFrameworkCore;
 using ServiceCenterApp.Commands;
 using ServiceCenterApp.Models;
@@ -78,7 +79,7 @@ public class ReportViewModel : ViewModelBase
                 Name = works.Name,                   
                 Description = works.Description ?? "",
                 StartDate = works.StartDate,
-                EndDate = works.EndDate ?? DateTime.UtcNow,
+                EndDate = works.EndDate ?? DateTime.Now,
                 TotalCost = works.TotalCost,
                 TypeName = types.Type
             }
@@ -137,146 +138,182 @@ public class ReportViewModel : ViewModelBase
 
     public void CreateCompletedWorksReport()
     {
-        var path = GetPath("отчет о выполненных работах");
-
-        using var docX = IsFileExist ? DocX.Load(path) : DocX.Create(path);
-
-        var head = docX.InsertParagraph($"Отчет о выполненных работах");
-
-        head.Alignment = Alignment.center;
-        head.FontSize(14);
-        head.Font("TimesNewRoman");
-
-        docX.InsertParagraph();
-
-        var table = docX.AddTable(CompletedWorks.Count + 1, 6);
-        table.Alignment = Alignment.center;
-
-        table.Rows[0].Cells[0].Paragraphs.First().Append("Название");
-        table.Rows[0].Cells[1].Paragraphs.First().Append("Тип работы");
-        table.Rows[0].Cells[2].Paragraphs.First().Append("Стоимость");
-        table.Rows[0].Cells[3].Paragraphs.First().Append("Начало");
-        table.Rows[0].Cells[4].Paragraphs.First().Append("Окончание");
-        table.Rows[0].Cells[5].Paragraphs.First().Append("Описание");
-
-        for (int i = 0; i < table.Rows.Count - 1; i++)
+        try
         {
-            table.Rows[i + 1].Cells[0].Paragraphs.First().Append(CompletedWorks[i].Name);
-            table.Rows[i + 1].Cells[1].Paragraphs.First().Append(CompletedWorks[i].TypeName);
-            table.Rows[i + 1].Cells[2].Paragraphs.First().Append(CompletedWorks[i].TotalCost.ToString());
-            table.Rows[i + 1].Cells[3].Paragraphs.First().Append(CompletedWorks[i].StartDate.ToString("f"));
-            table.Rows[i + 1].Cells[4].Paragraphs.First().Append(CompletedWorks[i].EndDate.ToString("f"));
-            table.Rows[i + 1].Cells[5].Paragraphs.First().Append(CompletedWorks[i].Description);
+            var path = GetPath("отчет о выполненных работах");
+
+            using var docX = IsFileExist ? DocX.Load(path) : DocX.Create(path);
+
+            var head = docX.InsertParagraph($"Отчет о выполненных работах");
+
+            head.Alignment = Alignment.center;
+            head.FontSize(14);
+            head.Font("TimesNewRoman");
+
+            docX.InsertParagraph();
+
+            var table = docX.AddTable(CompletedWorks.Count + 1, 6);
+            table.Alignment = Alignment.center;
+
+            table.Rows[0].Cells[0].Paragraphs.First().Append("Название");
+            table.Rows[0].Cells[1].Paragraphs.First().Append("Тип работы");
+            table.Rows[0].Cells[2].Paragraphs.First().Append("Стоимость");
+            table.Rows[0].Cells[3].Paragraphs.First().Append("Начало");
+            table.Rows[0].Cells[4].Paragraphs.First().Append("Окончание");
+            table.Rows[0].Cells[5].Paragraphs.First().Append("Описание");
+
+            for (int i = 0; i < table.Rows.Count - 1; i++)
+            {
+                table.Rows[i + 1].Cells[0].Paragraphs.First().Append(CompletedWorks[i].Name);
+                table.Rows[i + 1].Cells[1].Paragraphs.First().Append(CompletedWorks[i].TypeName);
+                table.Rows[i + 1].Cells[2].Paragraphs.First().Append(CompletedWorks[i].TotalCost.ToString());
+                table.Rows[i + 1].Cells[3].Paragraphs.First().Append(CompletedWorks[i].StartDate.ToString("f"));
+                table.Rows[i + 1].Cells[4].Paragraphs.First().Append(CompletedWorks[i].EndDate.ToString("f"));
+                table.Rows[i + 1].Cells[5].Paragraphs.First().Append(CompletedWorks[i].Description);
+            }
+
+            docX.InsertTable(table);
+
+            docX.Save();
+            MessageBox.Show($"Отчет сохранен по адресу {path}");
         }
-
-        docX.InsertTable(table);
-
-        docX.Save();
+        catch
+        {
+            MessageBox.Show("Не удалось сохранить отчет");
+        }
+        
     }
 
     public void CreateTimeSpentReport()
     {
-        var path = GetPath("отчет о затраченном времени");
-
-        using var docX = IsFileExist ? DocX.Load(path) : DocX.Create(path);
-
-        var head = docX.InsertParagraph($"Отчет о затраченном времени");
-
-        head.Alignment = Alignment.center;
-        head.FontSize(14);
-        head.Font("TimesNewRoman");
-
-        docX.InsertParagraph();
-
-        var table = docX.AddTable(CompletedWorks.Count + 1, 2);
-        table.Alignment = Alignment.center;
-
-        table.Rows[0].Cells[0].Paragraphs.First().Append("Название");
-        table.Rows[0].Cells[1].Paragraphs.First().Append("Времени затрачено");
-
-        for (int i = 0; i < table.Rows.Count - 1; i++)
+        try
         {
-            var timeSpent = (CompletedWorks[i].EndDate - CompletedWorks[i].StartDate).TotalHours;
-            table.Rows[i + 1].Cells[0].Paragraphs.First().Append(CompletedWorks[i].Name);
-            table.Rows[i + 1].Cells[1].Paragraphs.First().Append(timeSpent.ToString());
+            var path = GetPath("отчет о затраченном времени");
+
+            using var docX = IsFileExist ? DocX.Load(path) : DocX.Create(path);
+
+            var head = docX.InsertParagraph($"Отчет о затраченном времени");
+
+            head.Alignment = Alignment.center;
+            head.FontSize(14);
+            head.Font("TimesNewRoman");
+
+            docX.InsertParagraph();
+
+            var table = docX.AddTable(CompletedWorks.Count + 1, 2);
+            table.Alignment = Alignment.center;
+
+            table.Rows[0].Cells[0].Paragraphs.First().Append("Название");
+            table.Rows[0].Cells[1].Paragraphs.First().Append("Времени затрачено");
+
+            for (int i = 0; i < table.Rows.Count - 1; i++)
+            {
+                var timeSpent = (CompletedWorks[i].EndDate - CompletedWorks[i].StartDate).TotalHours;
+                table.Rows[i + 1].Cells[0].Paragraphs.First().Append(CompletedWorks[i].Name);
+                table.Rows[i + 1].Cells[1].Paragraphs.First().Append(timeSpent.ToString());
+            }
+
+            docX.InsertTable(table);
+
+            docX.Save();
+            MessageBox.Show($"Отчет сохранен по адресу {path}");
         }
-
-        docX.InsertTable(table);
-
-        docX.Save();
+        catch
+        {
+            MessageBox.Show("Не удалось сохранить отчет");
+        }
+        
     }
 
     public void CreateDetailsUsageReport()
     {
-        var path = GetPath("отчет об использовании запасных частей");
-
-        using var docX = IsFileExist ? DocX.Load(path) : DocX.Create(path);
-
-        var head = docX.InsertParagraph($"Отчет об использовании запасных частей");
-
-        head.Alignment = Alignment.center;
-        head.FontSize(14);
-        head.Font("TimesNewRoman");
-
-        docX.InsertParagraph();
-
-        var table = docX.AddTable(DetailsViews.Count + 1, 5);
-        table.Alignment = Alignment.center;
-
-        table.Rows[0].Cells[0].Paragraphs.First().Append("Название работы");
-        table.Rows[0].Cells[1].Paragraphs.First().Append("Название детали");
-        table.Rows[0].Cells[2].Paragraphs.First().Append("Цена детали");
-        table.Rows[0].Cells[3].Paragraphs.First().Append("Кол-во деталей");
-        table.Rows[0].Cells[4].Paragraphs.First().Append("Сумма");
-
-        for (int i = 0; i < table.Rows.Count - 1; i++)
+        try
         {
-            table.Rows[i + 1].Cells[0].Paragraphs.First().Append(DetailsViews[i].WorkName);
-            table.Rows[i + 1].Cells[1].Paragraphs.First().Append(DetailsViews[i].DetailName);
-            table.Rows[i + 1].Cells[2].Paragraphs.First().Append(DetailsViews[i].DetailPrice.ToString());
-            table.Rows[i + 1].Cells[3].Paragraphs.First().Append(DetailsViews[i].DetailCount.ToString());
-            table.Rows[i + 1].Cells[4].Paragraphs.First().Append(DetailsViews[i].TotalCost.ToString());
+            var path = GetPath("отчет об использовании запасных частей");
+
+            using var docX = IsFileExist ? DocX.Load(path) : DocX.Create(path);
+
+            var head = docX.InsertParagraph($"Отчет об использовании запасных частей");
+
+            head.Alignment = Alignment.center;
+            head.FontSize(14);
+            head.Font("TimesNewRoman");
+
+            docX.InsertParagraph();
+
+            var table = docX.AddTable(DetailsViews.Count + 1, 5);
+            table.Alignment = Alignment.center;
+
+            table.Rows[0].Cells[0].Paragraphs.First().Append("Название работы");
+            table.Rows[0].Cells[1].Paragraphs.First().Append("Название детали");
+            table.Rows[0].Cells[2].Paragraphs.First().Append("Цена детали");
+            table.Rows[0].Cells[3].Paragraphs.First().Append("Кол-во деталей");
+            table.Rows[0].Cells[4].Paragraphs.First().Append("Сумма");
+
+            for (int i = 0; i < table.Rows.Count - 1; i++)
+            {
+                table.Rows[i + 1].Cells[0].Paragraphs.First().Append(DetailsViews[i].WorkName);
+                table.Rows[i + 1].Cells[1].Paragraphs.First().Append(DetailsViews[i].DetailName);
+                table.Rows[i + 1].Cells[2].Paragraphs.First().Append(DetailsViews[i].DetailPrice.ToString());
+                table.Rows[i + 1].Cells[3].Paragraphs.First().Append(DetailsViews[i].DetailCount.ToString());
+                table.Rows[i + 1].Cells[4].Paragraphs.First().Append(DetailsViews[i].TotalCost.ToString());
+            }
+
+            docX.InsertTable(table);
+
+            docX.Save();
+            MessageBox.Show($"Отчет сохранен по адресу {path}");
         }
-
-        docX.InsertTable(table);
-
-        docX.Save();
+        catch
+        {
+            MessageBox.Show("Не удалось сохранить отчет");
+        }
+        
     }
 
     public void CreateAnalyticsReport()
     {
-        var path = GetPath("анализ эффективности работы сотрудников");
-
-        using var docX = IsFileExist ? DocX.Load(path) : DocX.Create(path);
-
-        var head = docX.InsertParagraph($"Анализ эффективности работы сотрудников");
-
-        head.Alignment = Alignment.center;
-        head.FontSize(14);
-        head.Font("TimesNewRoman");
-
-        docX.InsertParagraph();
-
-        var table = docX.AddTable(AnalyticsViews.Count + 1, 4);
-        table.Alignment = Alignment.center;
-
-        table.Rows[0].Cells[0].Paragraphs.First().Append("Работник");
-        table.Rows[0].Cells[1].Paragraphs.First().Append("Сделано работ на сумму");
-        table.Rows[0].Cells[2].Paragraphs.First().Append("Цель");
-        table.Rows[0].Cells[3].Paragraphs.First().Append("Эффективность (%)");
-
-        const decimal purpose = 200000;
-
-        for (int i = 0; i < table.Rows.Count - 1; i++)
+        try
         {
-            table.Rows[i + 1].Cells[0].Paragraphs.First().Append(AnalyticsViews[i].Login);
-            table.Rows[i + 1].Cells[1].Paragraphs.First().Append(AnalyticsViews[i].Sum.ToString());
-            table.Rows[i + 1].Cells[2].Paragraphs.First().Append(purpose.ToString());
-            table.Rows[i + 1].Cells[3].Paragraphs.First().Append((purpose / AnalyticsViews[i].Sum * 100).ToString());
+            var path = GetPath("анализ эффективности работы сотрудников");
+
+            using var docX = IsFileExist ? DocX.Load(path) : DocX.Create(path);
+
+            var head = docX.InsertParagraph($"Анализ эффективности работы сотрудников");
+
+            head.Alignment = Alignment.center;
+            head.FontSize(14);
+            head.Font("TimesNewRoman");
+
+            docX.InsertParagraph();
+
+            var table = docX.AddTable(AnalyticsViews.Count + 1, 4);
+            table.Alignment = Alignment.center;
+
+            table.Rows[0].Cells[0].Paragraphs.First().Append("Работник");
+            table.Rows[0].Cells[1].Paragraphs.First().Append("Сделано работ на сумму");
+            table.Rows[0].Cells[2].Paragraphs.First().Append("Цель");
+            table.Rows[0].Cells[3].Paragraphs.First().Append("Эффективность (%)");
+
+            const decimal purpose = 200000;
+
+            for (int i = 0; i < table.Rows.Count - 1; i++)
+            {
+                table.Rows[i + 1].Cells[0].Paragraphs.First().Append(AnalyticsViews[i].Login);
+                table.Rows[i + 1].Cells[1].Paragraphs.First().Append(AnalyticsViews[i].Sum.ToString());
+                table.Rows[i + 1].Cells[2].Paragraphs.First().Append(purpose.ToString());
+                table.Rows[i + 1].Cells[3].Paragraphs.First().Append((purpose / AnalyticsViews[i].Sum * 100).ToString());
+            }
+
+            docX.InsertTable(table);
+
+            docX.Save();
+            MessageBox.Show($"Отчет сохранен по адресу {path}");
         }
-
-        docX.InsertTable(table);
-
-        docX.Save();
+        catch
+        {
+            MessageBox.Show("Не удалось сохранить отчет");
+        }
+        
     }
 }
