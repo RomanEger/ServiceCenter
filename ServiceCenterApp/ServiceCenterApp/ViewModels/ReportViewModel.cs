@@ -44,7 +44,7 @@ public class ReportViewModel : ViewModelBase
                 on userWorks.EmployeeId equals users.Id
             join works in _dbContext.Works
                 on userWorks.WorkId equals works.Id
-            where works.EndDate.Value.Month == DateTime.Now.Month
+            where works.EndDate.Value.Month == DateTime.Now.Month && works.StatusId == 3
             select new
             {
                 users.Login,
@@ -302,7 +302,7 @@ public class ReportViewModel : ViewModelBase
                 table.Rows[i + 1].Cells[0].Paragraphs.First().Append(AnalyticsViews[i].Login);
                 table.Rows[i + 1].Cells[1].Paragraphs.First().Append(AnalyticsViews[i].Sum.ToString());
                 table.Rows[i + 1].Cells[2].Paragraphs.First().Append(purpose.ToString());
-                table.Rows[i + 1].Cells[3].Paragraphs.First().Append((purpose / AnalyticsViews[i].Sum * 100).ToString());
+                table.Rows[i + 1].Cells[3].Paragraphs.First().Append((AnalyticsViews[i].Sum * 100 / purpose).ToString());
             }
 
             docX.InsertTable(table);

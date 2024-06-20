@@ -441,6 +441,11 @@ namespace ServiceCenterApp.ViewModels
             {
                 SelectedWork.StatusId = 3;
                 SelectedWork.EndDate = DateTime.Now;
+                foreach (var item in StockDetailsByWork)
+                {
+                    var i = _dbContext.Details.FirstOrDefault(x => x.Name == item.DetailName);
+                    SelectedWork.TotalCost += i.Price * item.Count;
+                }
             }
 
             if (SelectedWork.StatusId == 1)
