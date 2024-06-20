@@ -448,7 +448,10 @@ namespace ServiceCenterApp.ViewModels
                 _dbContext.UserWorks.Add(_userWork);
 
             if (IsDone)
+            {
                 SelectedWork.StatusId = 3;
+                SelectedWork.EndDate = DateTime.Now;
+            }
 
             if (SelectedWork.StatusId == 1)
                 SelectedWork.StatusId = 2;

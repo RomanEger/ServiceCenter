@@ -24,6 +24,7 @@ public class StockViewModel : ViewModelBase
         DeleteCommand = new MyCommand(Delete);
         AddOrUpdateDetailCommand = new MyCommand(AddOrUpdateDetail);
         AddStockDetailCommand = new MyCommand(AddStockDetail);
+        AddDetailCommand = new MyCommand(AddDetail);
         Details = GetDetailsString();
         Stocks = GetStocks();
         StockDetail = new StockDetail();
@@ -80,6 +81,8 @@ public class StockViewModel : ViewModelBase
         set
         {
             _stock = value;
+            var sId = _dbContext.Stocks.Where(x => x.Name == value).Select(x => x.Id).FirstOrDefault();
+            StockDetail.StockId = sId;
             OnPropertyChanged();
         }
     }
@@ -93,11 +96,12 @@ public class StockViewModel : ViewModelBase
         {
             _selectedDetail = value;
             Detail = _dbContext.Details.FirstOrDefault(x => x.Name == _selectedDetail) ?? new();
+            StockDetail.DetailId = Detail.Id;
             OnPropertyChanged();
         }
     }
 
-    public StockDetail StockDetail { get; set; }
+    private StockDetail StockDetail { get; set; }
     
     public StockDetail GetStockDetail()
     {
@@ -122,11 +126,6 @@ public class StockViewModel : ViewModelBase
             }
             if(StockDetail is null)
                 return;
-            if (StockDetail.CountDetail < value && StockDetail.Id > 0)
-            {
-                MessageBox.Show($"Всего деталей: {StockDetail.CountDetail}");
-                return;
-            }
             _count = value;
             OnPropertyChanged();
         }
@@ -153,6 +152,8 @@ public class StockViewModel : ViewModelBase
 
     public ICommand AddOrUpdateDetailCommand { get; private set; }
 
+    public ICommand AddDetailCommand { get; private set; }
+    
     public ICommand AddStockDetailCommand { get; private set; }
 
     public void AddStockDetail()
@@ -209,6 +210,15 @@ public class StockViewModel : ViewModelBase
 
     private void SaveChanges()
     {
+        _dbContext.SaveChanges();
+        Count = 0;
+        Detail = new Detail();
+        SelectedDetail = "";
+        Stock = "";
+    }
+
+    private void AddDetail()
+    {
         var dId = _dbContext.Details.Where(x => x.Name == SelectedStockDetail.DetailName).Select(x => x.Id)
             .FirstOrDefault();
         if (dId == 0)
@@ -227,12 +237,8 @@ public class StockViewModel : ViewModelBase
         StockDetail.DetailId = dId;
         StockDetail.StockId = sId;
         StockDetail.CountDetail = SelectedStockDetail.Count;
-        _dbContext.SaveChanges();
-        Count = 0;
-        Detail = new Detail();
-        SelectedDetail = "";
-        Stock = "";
-    } 
+        SaveChanges();
+    }
     
     private void Delete()
     {

@@ -204,11 +204,11 @@ public class ReportViewModel : ViewModelBase
             table.Alignment = Alignment.center;
 
             table.Rows[0].Cells[0].Paragraphs.First().Append("Название");
-            table.Rows[0].Cells[1].Paragraphs.First().Append("Времени затрачено");
+            table.Rows[0].Cells[1].Paragraphs.First().Append("Времени затрачено (минут)");
 
             for (int i = 0; i < table.Rows.Count - 1; i++)
             {
-                var timeSpent = (CompletedWorks[i].EndDate - CompletedWorks[i].StartDate).TotalHours;
+                var timeSpent = (CompletedWorks[i].EndDate - CompletedWorks[i].StartDate).TotalMinutes;
                 table.Rows[i + 1].Cells[0].Paragraphs.First().Append(CompletedWorks[i].Name);
                 table.Rows[i + 1].Cells[1].Paragraphs.First().Append(timeSpent.ToString());
             }

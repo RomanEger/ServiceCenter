@@ -1,6 +1,7 @@
 ﻿using ServiceCenterApp.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace ServiceCenterApp.Views.Requests
 {
@@ -31,6 +32,12 @@ namespace ServiceCenterApp.Views.Requests
 
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
+            var vm = (WorkViewModel)DataContext;
+            if (vm.SelectedWork.StatusId == 3)
+            {
+                MessageBox.Show("Заявка закрыта");
+                return;
+            }
             var page = new RequestChange
             {
                 DataContext = this.DataContext

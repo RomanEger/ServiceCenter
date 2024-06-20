@@ -35,6 +35,10 @@ public class ServiceCenterDbContext : DbContext
                 v => v.ToString(),
                 v => (StatusName)Enum.Parse(typeof(StatusName), v))
             .HasMaxLength(15);
+
+        modelBuilder
+            .Entity<StockDetail>()
+            .HasIndex(x => new { x.StockId, x.DetailId }).IsUnique();
     }
 
     public ServiceCenterDbContext()

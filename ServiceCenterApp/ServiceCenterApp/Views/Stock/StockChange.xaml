@@ -5,7 +5,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:ServiceCenterApp.Views.Stock"
         mc:Ignorable="d"
-        Loaded="StockChange_OnLoaded"
         Height="350" Width="400">
     <Grid>
         <StackPanel Orientation="Vertical"
