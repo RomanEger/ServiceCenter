@@ -82,7 +82,7 @@ public class StockViewModel : ViewModelBase
         {
             _stock = value;
             var sId = _dbContext.Stocks.Where(x => x.Name == value).Select(x => x.Id).FirstOrDefault();
-            StockDetail.StockId = sId;
+            //StockDetail.StockId = sId;
             OnPropertyChanged();
         }
     }
@@ -96,7 +96,7 @@ public class StockViewModel : ViewModelBase
         {
             _selectedDetail = value;
             Detail = _dbContext.Details.FirstOrDefault(x => x.Name == _selectedDetail) ?? new();
-            StockDetail.DetailId = Detail.Id;
+            //StockDetail.DetailId = Detail.Id;
             OnPropertyChanged();
         }
     }
@@ -175,7 +175,15 @@ public class StockViewModel : ViewModelBase
                 DetailId = d.Id,
                 StockId = s.Id
             };
-            _dbContext.StockDetails.Add(StockDetail);
+            try
+            {
+                _dbContext.StockDetails.Add(StockDetail);
+            }
+            catch
+            {
+                MessageBox.Show("Не удается добавить деталь");
+            }
+            
         }
         else
             sdd.CountDetail = Count;
@@ -183,7 +191,7 @@ public class StockViewModel : ViewModelBase
         SaveChanges();
         var stockDetail = new StockDetailView()
         {
-            Count = Count,
+            Count = StockDetail.CountDetail,
             DetailName = d.Name,
             StockName = s.Name
         };
@@ -210,7 +218,14 @@ public class StockViewModel : ViewModelBase
 
     private void SaveChanges()
     {
-        _dbContext.SaveChanges();
+        try
+        {
+            _dbContext.SaveChanges();
+        }
+        catch
+        {
+            MessageBox.Show("Ошибка при сохранении");
+        }
         Count = 0;
         Detail = new Detail();
         SelectedDetail = "";

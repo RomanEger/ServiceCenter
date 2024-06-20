@@ -1,4 +1,5 @@
-﻿using ServiceCenterApp.Commands;
+﻿using System.Collections.ObjectModel;
+using ServiceCenterApp.Commands;
 using ServiceCenterApp.Models;
 using ServiceCenterApp.ReportViews;
 using ServiceCenterApp.Views;
@@ -52,7 +53,7 @@ namespace ServiceCenterApp.ViewModels
             set
             {
                 _selectedWork = value;
-                StockDetailsByWork = GetStockDetailViewsByWork();
+                StockDetailsByWork = new ObservableCollection<StockDetailView>(GetStockDetailViewsByWork());
                 OnPropertyChanged();
             }
         }
@@ -82,18 +83,7 @@ namespace ServiceCenterApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        
-        private IEnumerable<StockDetailView> _stockDetailsByWork = new List<StockDetailView>();
-
-        public IEnumerable<StockDetailView> StockDetailsByWork
-        {
-            get => _stockDetailsByWork;
-            set
-            {
-                _stockDetailsByWork = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableCollection<StockDetailView> StockDetailsByWork { get; set; }
         
         private Detail _selectedDetail = new Detail();
         
@@ -501,7 +491,7 @@ namespace ServiceCenterApp.ViewModels
             stockDetailView.DetailName = SelectedStockDetailCmb;
             stockDetailView.StockName = SelectedStock;
             stockDetailView.Count = DetailCount;
-            _stockDetailsByWork.ToList().Add(stockDetailView);
+            StockDetailsByWork.Add(stockDetailView);
 
             var workDetail = new WorkDetail()
             {
