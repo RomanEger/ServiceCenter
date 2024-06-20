@@ -449,6 +449,9 @@ namespace ServiceCenterApp.ViewModels
 
             if (IsDone)
                 SelectedWork.StatusId = 3;
+
+            if (SelectedWork.StatusId == 1)
+                SelectedWork.StatusId = 2;
             
             _dbContext.SaveChanges();
             MessageBox.Show("Успешно!");

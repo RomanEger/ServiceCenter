@@ -31,7 +31,7 @@
                                 Binding="{Binding Description}"/>
                     <DataGridTextColumn Header="Статус"
                                 Width="*"
-                                Binding="{Binding StatusId}"/>
+                                Binding="{Binding StatusStr}"/>
                     <DataGridTemplateColumn Width="120">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

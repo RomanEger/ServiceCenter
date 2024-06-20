@@ -40,10 +40,12 @@ namespace ServiceCenterApp.Views.Stock
 
         private void ButtonBase1_OnClick(object sender, RoutedEventArgs e)
         {
+            var vm = (StockViewModel)DataContext;
             var window = new StockAdd()
             {
                 DataContext = this.DataContext
             };
+            
             window.ShowDialog();
         }
     }
