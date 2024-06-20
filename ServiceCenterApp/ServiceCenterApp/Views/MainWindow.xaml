@@ -20,16 +20,12 @@
         <StackPanel
             Background="GhostWhite"
                 Grid.Column="0">
+                <Button Name="ExitBtn" Click="ExitBtn_OnClick" Content="Выйти" Foreground="Red"/>
                 <Button Click="Button_Click" Content="Управление заявками"/>
                 <Button Click="Button_Click_1" Content="Управление клиентами"/>
                 <Button Click="Button_Click_2" Content="Управление складом"/>
                 <Button Click="Button_Click_3" Content="Отчеты и аналитика"/>
         </StackPanel>
-        <GridSplitter
-                Grid.Column="0"
-                Grid.Row="1"
-                Background="#9F9F9F"
-                Width="1"/>
         <Frame x:Name="MainFrame"
                NavigationUIVisibility="Hidden"
                Grid.Column="1"

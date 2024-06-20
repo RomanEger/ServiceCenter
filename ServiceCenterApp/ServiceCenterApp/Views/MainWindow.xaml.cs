@@ -16,9 +16,12 @@ public partial class MainWindow : Window
 
     public static Employee Employee { get; set; }
 
-    public MainWindow(ServiceCenterDbContext dbContext)
+    private readonly App _app;
+    
+    public MainWindow(ServiceCenterDbContext dbContext, App app)
     {
         InitializeComponent();
+        _app = app;
         WindowState = WindowState.Maximized;
         DbContext = dbContext;
         var authWindow = new AuthWindow(dbContext);
@@ -58,5 +61,13 @@ public partial class MainWindow : Window
         var reportsPage = new ReportsCreate();
         reportsPage.DataContext = new ReportViewModel(_dbContext);
         Navigation.Frame.Navigate(reportsPage);
+    }
+
+    private void ExitBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        UserRole.Role = null;
+        this.Hide();
+        _app.StartUp();
+        this.Close();
     }
 }
