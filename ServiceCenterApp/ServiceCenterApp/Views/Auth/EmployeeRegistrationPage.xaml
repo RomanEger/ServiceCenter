@@ -29,6 +29,8 @@
                 Command="{Binding EmployeeRegistrationCommand, AsyncState=True}"
                 Content="Создать аккаунт"
                 Width="180"/>
+            <Button Content="Есть аккаунт"
+                    Click="ButtonBase_OnClick"/>
         </StackPanel>
     </Grid>
 </Page>

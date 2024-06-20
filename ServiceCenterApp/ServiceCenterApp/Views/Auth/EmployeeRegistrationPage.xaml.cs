@@ -19,5 +19,10 @@ namespace ServiceCenterApp.Views.Auth
             page.DataContext = DataContext;
             Navigation.Frame?.Navigate(page);
         }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            Navigation.Frame.GoBack();
+        }
     }
 }
