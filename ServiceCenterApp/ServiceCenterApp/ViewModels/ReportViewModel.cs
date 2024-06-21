@@ -73,13 +73,13 @@ public class ReportViewModel : ViewModelBase
             from works in _dbContext.Works
             join types in _dbContext.WorkTypes
                 on works.WorkTypeId equals types.Id
-            where works.StatusId == 3 && (works.StartDate.Month == DateTime.Now.Month || works.EndDate.Value.Month == DateTime.Now.Month)
+            where works.StatusId == 3 && works.EndDate.Value.Month == DateTime.Now.Month
             select new WorkView
             {
                 Name = works.Name,                   
                 Description = works.Description ?? "",
                 StartDate = works.StartDate,
-                EndDate = works.EndDate ?? DateTime.Now,
+                EndDate = works.EndDate.Value,
                 TotalCost = works.TotalCost,
                 TypeName = types.Type
             }
@@ -144,7 +144,9 @@ public class ReportViewModel : ViewModelBase
 
             using var docX = IsFileExist ? DocX.Load(path) : DocX.Create(path);
 
-            var head = docX.InsertParagraph($"Отчет о выполненных работах");
+            var month = (Month)DateTime.Now.Month;
+            
+            var head = docX.InsertParagraph($"Отчет о выполненных работах за {month}");
 
             head.Alignment = Alignment.center;
             head.FontSize(14);
@@ -164,9 +166,10 @@ public class ReportViewModel : ViewModelBase
 
             for (int i = 0; i < table.Rows.Count - 1; i++)
             {
+                var totalCost = $"{CompletedWorks[i].TotalCost:f2}";
                 table.Rows[i + 1].Cells[0].Paragraphs.First().Append(CompletedWorks[i].Name);
                 table.Rows[i + 1].Cells[1].Paragraphs.First().Append(CompletedWorks[i].TypeName);
-                table.Rows[i + 1].Cells[2].Paragraphs.First().Append(CompletedWorks[i].TotalCost.ToString());
+                table.Rows[i + 1].Cells[2].Paragraphs.First().Append(totalCost);
                 table.Rows[i + 1].Cells[3].Paragraphs.First().Append(CompletedWorks[i].StartDate.ToString("f"));
                 table.Rows[i + 1].Cells[4].Paragraphs.First().Append(CompletedWorks[i].EndDate.ToString("f"));
                 table.Rows[i + 1].Cells[5].Paragraphs.First().Append(CompletedWorks[i].Description);
@@ -192,7 +195,9 @@ public class ReportViewModel : ViewModelBase
 
             using var docX = IsFileExist ? DocX.Load(path) : DocX.Create(path);
 
-            var head = docX.InsertParagraph($"Отчет о затраченном времени");
+            var month = (Month)DateTime.Now.Month;
+            
+            var head = docX.InsertParagraph($"Отчет о затраченном времени за {month}");
 
             head.Alignment = Alignment.center;
             head.FontSize(14);
@@ -209,8 +214,9 @@ public class ReportViewModel : ViewModelBase
             for (int i = 0; i < table.Rows.Count - 1; i++)
             {
                 var timeSpent = (CompletedWorks[i].EndDate - CompletedWorks[i].StartDate).TotalMinutes;
+                var time = Math.Ceiling(timeSpent);
                 table.Rows[i + 1].Cells[0].Paragraphs.First().Append(CompletedWorks[i].Name);
-                table.Rows[i + 1].Cells[1].Paragraphs.First().Append(timeSpent.ToString());
+                table.Rows[i + 1].Cells[1].Paragraphs.First().Append(time.ToString());
             }
 
             docX.InsertTable(table);
@@ -232,8 +238,10 @@ public class ReportViewModel : ViewModelBase
             var path = GetPath("отчет об использовании запасных частей");
 
             using var docX = IsFileExist ? DocX.Load(path) : DocX.Create(path);
-
-            var head = docX.InsertParagraph($"Отчет об использовании запасных частей");
+            
+            var month = (Month)DateTime.Now.Month;
+            
+            var head = docX.InsertParagraph($"Отчет об использовании запасных частей за {month}");
 
             head.Alignment = Alignment.center;
             head.FontSize(14);
@@ -254,9 +262,9 @@ public class ReportViewModel : ViewModelBase
             {
                 table.Rows[i + 1].Cells[0].Paragraphs.First().Append(DetailsViews[i].WorkName);
                 table.Rows[i + 1].Cells[1].Paragraphs.First().Append(DetailsViews[i].DetailName);
-                table.Rows[i + 1].Cells[2].Paragraphs.First().Append(DetailsViews[i].DetailPrice.ToString());
+                table.Rows[i + 1].Cells[2].Paragraphs.First().Append(DetailsViews[i].DetailPrice.ToString("f2"));
                 table.Rows[i + 1].Cells[3].Paragraphs.First().Append(DetailsViews[i].DetailCount.ToString());
-                table.Rows[i + 1].Cells[4].Paragraphs.First().Append(DetailsViews[i].TotalCost.ToString());
+                table.Rows[i + 1].Cells[4].Paragraphs.First().Append(DetailsViews[i].TotalCost.ToString("f2"));
             }
 
             docX.InsertTable(table);
@@ -275,11 +283,13 @@ public class ReportViewModel : ViewModelBase
     {
         try
         {
+            var month = (Month)DateTime.Now.Month;
+            
             var path = GetPath("анализ эффективности работы сотрудников");
 
             using var docX = IsFileExist ? DocX.Load(path) : DocX.Create(path);
-
-            var head = docX.InsertParagraph($"Анализ эффективности работы сотрудников");
+            
+            var head = docX.InsertParagraph($"Анализ эффективности работы сотрудников за {month}");
 
             head.Alignment = Alignment.center;
             head.FontSize(14);
@@ -295,14 +305,14 @@ public class ReportViewModel : ViewModelBase
             table.Rows[0].Cells[2].Paragraphs.First().Append("Цель");
             table.Rows[0].Cells[3].Paragraphs.First().Append("Эффективность (%)");
 
-            const decimal purpose = 200000;
+            const decimal purpose = 100000;
 
             for (int i = 0; i < table.Rows.Count - 1; i++)
             {
                 table.Rows[i + 1].Cells[0].Paragraphs.First().Append(AnalyticsViews[i].Login);
-                table.Rows[i + 1].Cells[1].Paragraphs.First().Append(AnalyticsViews[i].Sum.ToString());
+                table.Rows[i + 1].Cells[1].Paragraphs.First().Append(AnalyticsViews[i].Sum.ToString("f2"));
                 table.Rows[i + 1].Cells[2].Paragraphs.First().Append(purpose.ToString());
-                table.Rows[i + 1].Cells[3].Paragraphs.First().Append((AnalyticsViews[i].Sum * 100 / purpose).ToString());
+                table.Rows[i + 1].Cells[3].Paragraphs.First().Append((AnalyticsViews[i].Sum * 100 / purpose).ToString("f2"));
             }
 
             docX.InsertTable(table);
@@ -315,5 +325,21 @@ public class ReportViewModel : ViewModelBase
             MessageBox.Show("Не удалось сохранить отчет");
         }
         
+    }
+    
+    private enum Month
+    {
+        Январь = 1,
+        Февраль,
+        Март,
+        Апрель,
+        Май,
+        Июнь,
+        Июль,
+        Август,
+        Сентябрь,
+        Октябрь,
+        Ноябрь,
+        Декабрь
     }
 }
