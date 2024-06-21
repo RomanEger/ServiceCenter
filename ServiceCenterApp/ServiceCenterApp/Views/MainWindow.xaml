@@ -16,9 +16,15 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-
+        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        
         <StackPanel
             Background="GhostWhite"
+            Grid.RowSpan="2"
                 Grid.Column="0">
                 <Button Name="ExitBtn" Click="ExitBtn_OnClick" Content="Выйти" Foreground="Red"/>
                 <Button Click="Button_Click" Content="Управление заявками"/>
@@ -26,7 +32,16 @@
                 <Button Click="Button_Click_2" Content="Управление складом"/>
                 <Button Click="Button_Click_3" Content="Отчеты и аналитика"/>
         </StackPanel>
-        <Frame x:Name="MainFrame"
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Name="TbInfo"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Margin="5"/>
+        <Frame Grid.Row="0"
+               x:Name="MainFrame"
+               Grid.RowSpan="2"
                NavigationUIVisibility="Hidden"
                Grid.Column="1"
                Grid.ColumnSpan="2"/>

@@ -33,6 +33,7 @@ public partial class MainWindow : Window
         }
         //добавить авторизацию
         Navigation.Frame = MainFrame;
+        TbInfo.Text = $"Пользователь: {Employee.Login}\nРоль: {UserRole.Role}";
     }
 
     private void Button_Click(object sender, RoutedEventArgs e)
