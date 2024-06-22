@@ -76,7 +76,7 @@ namespace ServiceCenterApp.ViewModels
                 MessageBox.Show("Некорректный номер телефона");
                 return;
             }
-            var isClientExists = await _dbContext.Clients.AnyAsync(c => c.Login == Client.Login || c.PhoneNumber == Client.PhoneNumber);
+            var isClientExists = await _dbContext.Clients.AnyAsync(c => c.PhoneNumber == Client.PhoneNumber);
             if (isClientExists)
             {
                 MessageBox.Show("Клиент уже зарегистрирован!");
