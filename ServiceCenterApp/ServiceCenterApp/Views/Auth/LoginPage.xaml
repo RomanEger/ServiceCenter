@@ -26,11 +26,6 @@
                 Command="{Binding LoginCommand, AsyncState=True}"
                 Content="Войти"
                 Width="180"/>
-            <Button
-                Margin="0"
-                Click="Button_Click"
-                Content="Зарегистрироваться"
-                Width="180"/>
         </StackPanel>
     </Grid>
 </Page>

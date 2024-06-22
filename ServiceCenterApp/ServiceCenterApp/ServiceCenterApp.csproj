@@ -48,4 +48,9 @@
       </Page>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Resources\icon.png" />
+      <Resource Include="Resources\icon.png" />
+    </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
-﻿using ServiceCenterApp.ViewModels;
+﻿using ServiceCenterApp.Models;
+using ServiceCenterApp.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -23,6 +24,7 @@ namespace ServiceCenterApp.Views.Clients
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+            if (UserRole.Role == RoleName.EMPLOYEE) return;
             var dataContext = (ClientViewModel)DataContext;
             dataContext.DeleteClientCommand.Execute(null);
         }

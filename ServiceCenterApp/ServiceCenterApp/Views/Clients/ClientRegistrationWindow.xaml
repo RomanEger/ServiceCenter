@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ServiceCenterApp.Views.Clients"
         mc:Ignorable="d"
+        Icon="../../Resources/icon.png"
         Title="ClientRegistrationWindow" Height="450" Width="400">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30" DataContext="{Binding Client}">

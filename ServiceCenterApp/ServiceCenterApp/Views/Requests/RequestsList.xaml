@@ -47,7 +47,9 @@
                     <DataGridTemplateColumn Width="120">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Name="btnDelete"
+                                <Button 
+                                    Name="btnDelete"
+                                    IsEnabled="{Binding BtnDelIsEnabled}"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     BorderBrush="Transparent"

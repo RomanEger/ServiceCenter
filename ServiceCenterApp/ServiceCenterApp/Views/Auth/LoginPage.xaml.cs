@@ -13,11 +13,5 @@ namespace ServiceCenterApp.Views.Auth
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var page = new EmployeeRegistrationPage();
-            page.DataContext = DataContext;
-            Navigation.Frame?.Navigate(page);
-        }
     }
 }

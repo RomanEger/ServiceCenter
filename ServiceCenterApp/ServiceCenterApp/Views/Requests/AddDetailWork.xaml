@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:ServiceCenterApp.Views.Requests"
         mc:Ignorable="d"
+        Icon="../../Resources/icon.png"
         ResizeMode="NoResize"
         Height="250" Width="400">
     <Grid>

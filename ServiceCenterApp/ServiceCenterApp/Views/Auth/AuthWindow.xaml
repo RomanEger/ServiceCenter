@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         MinHeight="650"
         MinWidth="550"
+        Icon="../../Resources/icon.png"
         Height="650"
         Width="550"
-        WindowStyle="None"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary Source="../../Styles.xaml"/>

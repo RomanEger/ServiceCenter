@@ -1,6 +1,7 @@
 ﻿using ServiceCenterApp.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
+using ServiceCenterApp.Models;
 using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace ServiceCenterApp.Views.Requests
@@ -17,6 +18,7 @@ namespace ServiceCenterApp.Views.Requests
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+            if (UserRole.Role == RoleName.EMPLOYEE) return;
             var dataContext = (WorkViewModel)DataContext;
             dataContext.DeleteCommand.Execute(null);
         }
