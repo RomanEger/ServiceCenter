@@ -218,6 +218,7 @@ public class StockViewModel : ViewModelBase
         try
         {
             _dbContext.SaveChanges();
+            MessageBox.Show("Успешно");
         }
         catch
         {
@@ -259,7 +260,6 @@ public class StockViewModel : ViewModelBase
         _dbContext.StockDetails.Remove(stockDetail);
         SaveChanges();
         StockDetails.ToList().Remove(SelectedStockDetail);
-        MessageBox.Show("Успешно");
     }
 
     private IEnumerable<StockDetailView> GetDetails()

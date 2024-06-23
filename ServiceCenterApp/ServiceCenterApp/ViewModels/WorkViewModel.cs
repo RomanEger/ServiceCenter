@@ -397,6 +397,7 @@ namespace ServiceCenterApp.ViewModels
             Works.ToList().Remove(SelectedWork);
             _dbContext.Works.Remove(SelectedWork);
             _dbContext.SaveChanges();
+            MessageBox.Show("Успешно");
         }
 
         private bool _isDone;
@@ -452,6 +453,7 @@ namespace ServiceCenterApp.ViewModels
             }
             _dbContext.WorkDetails.Remove(workDetail);
             _dbContext.SaveChanges();
+            MessageBox.Show("Успешно");
             StockDetailsByWork.ToList().Remove(SelectedStockDetail);
         }
 
@@ -489,6 +491,7 @@ namespace ServiceCenterApp.ViewModels
             
             _dbContext.WorkDetails.Add(workDetail);
             _dbContext.SaveChanges();
+            MessageBox.Show("Успешно");
         }
         
         public ICommand AddWorkCommand { get; private set; }

@@ -25,6 +25,11 @@ namespace ServiceCenterApp.Views.Stock
 
         private void BtnChange_OnClick(object sender, RoutedEventArgs e)
         {
+            if (UserRole.Role == RoleName.EMPLOYEE)
+            {
+                MessageBox.Show("Изменять может только админ");
+                return;
+            }
             var window = new StockChange()
             {
                 DataContext = this.DataContext
