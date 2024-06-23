@@ -9,7 +9,7 @@
         Title="ClientRegistrationWindow" Height="450" Width="400">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30" DataContext="{Binding Client}">
-            <TextBlock Text="Логин"/>
+            <TextBlock Text="Имя"/>
             <TextBox Margin="0 0 0 5" Text="{Binding Login}" Width="220"/>
             <TextBlock Text="Номер телефона (89999999999)"/>
             <TextBox Text="{Binding PhoneNumber}" Width="220"/>

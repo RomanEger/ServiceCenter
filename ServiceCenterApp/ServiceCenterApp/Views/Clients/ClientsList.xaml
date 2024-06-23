@@ -20,7 +20,7 @@
       Background="Transparent"
       BorderBrush="Transparent">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Логин"
+                    <DataGridTextColumn Header="Имя"
                         Width="*"
                         Binding="{Binding Login}"/>
                     <DataGridTextColumn Header="Номер телефона"
