@@ -18,7 +18,11 @@ namespace ServiceCenterApp.Views.Requests
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (UserRole.Role == RoleName.EMPLOYEE) return;
+            if (UserRole.Role == RoleName.EMPLOYEE)
+            {
+                MessageBox.Show("Удалить может только админ");
+                return;
+            }
             var dataContext = (WorkViewModel)DataContext;
             dataContext.DeleteCommand.Execute(null);
         }

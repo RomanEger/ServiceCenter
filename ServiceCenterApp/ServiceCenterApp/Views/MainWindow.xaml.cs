@@ -27,16 +27,10 @@ public partial class MainWindow : Window
         DbContext = dbContext;
         var authWindow = new AuthWindow(dbContext);
         authWindow.ShowDialog();
-        if (UserRole.Role == null)
-        {
-            //все норм
-            throw new Exception();
-        }
-        //добавить авторизацию
         Navigation.Frame = MainFrame;
-        TbInfo.Text = $"Пользователь: {Employee.Login}\nРоль: {UserRole.Role}";
+        TbInfo.Text = $"Пользователь: {Employee?.Login}\nРоль: {UserRole.Role ?? RoleName.ADMIN}";
     }
-
+    
     private void Button_Click(object sender, RoutedEventArgs e)
     {
         var requestPage = new RequestsList();
@@ -71,5 +65,13 @@ public partial class MainWindow : Window
         this.Hide();
         _app.StartUp();
         this.Close();
+    }
+
+    private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+    {
+        if (UserRole.Role == null)
+        {
+            this.Close();
+        }
     }
 }

@@ -6,6 +6,7 @@
         mc:Ignorable="d"
         MinHeight="800"
         MinWidth="900"
+        Loaded="MainWindow_OnLoaded"
         Icon="../Resources/icon.png"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
