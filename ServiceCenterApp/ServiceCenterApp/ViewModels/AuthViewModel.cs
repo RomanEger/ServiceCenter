@@ -11,9 +11,9 @@ public class AuthViewModel : ViewModelBase
 {
     private readonly ServiceCenterDbContext _dbContext;
 
-    private readonly AuthWindow _authWindow;
+    private readonly Window _authWindow;
 
-    public AuthViewModel(ServiceCenterDbContext dbContext, AuthWindow authWindow)
+    public AuthViewModel(ServiceCenterDbContext dbContext, Window authWindow)
     {
         User = new Employee();
         EmployeeForRegistration = new Employee();

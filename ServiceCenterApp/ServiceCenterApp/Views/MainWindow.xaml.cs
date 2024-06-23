@@ -6,6 +6,7 @@ using ServiceCenterApp.Views.Requests;
 using ServiceCenterApp.Views.Stock;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using ServiceCenterApp.Views.Auth;
 
 namespace ServiceCenterApp.Views;
 
@@ -29,6 +30,10 @@ public partial class MainWindow : Window
         authWindow.ShowDialog();
         Navigation.Frame = MainFrame;
         TbInfo.Text = $"Пользователь: {Employee?.Login}\nРоль: {UserRole.Role ?? RoleName.ADMIN}";
+        BtnReg.Visibility = 
+            UserRole.Role == RoleName.ADMIN 
+            ? Visibility.Visible 
+            : Visibility.Collapsed;
     }
     
     private void Button_Click(object sender, RoutedEventArgs e)
@@ -73,5 +78,11 @@ public partial class MainWindow : Window
         {
             this.Close();
         }
+    }
+
+    private void BtnReg_OnClick(object sender, RoutedEventArgs e)
+    {
+        var window = new RegWindow(_dbContext);
+        window.ShowDialog();
     }
 }

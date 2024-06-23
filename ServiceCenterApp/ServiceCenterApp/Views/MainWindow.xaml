@@ -33,6 +33,7 @@
                 <Button Click="Button_Click_1" Content="Управление клиентами"/>
                 <Button Click="Button_Click_2" Content="Управление складом"/>
                 <Button Click="Button_Click_3" Content="Отчеты и аналитика"/>
+                <Button Name="BtnReg" Click="BtnReg_OnClick" Content="Создать аккаунт"/>
         </StackPanel>
         <TextBlock
             Grid.Row="1"
