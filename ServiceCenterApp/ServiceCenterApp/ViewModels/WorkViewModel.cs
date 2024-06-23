@@ -343,24 +343,6 @@ namespace ServiceCenterApp.ViewModels
                     DetailName = d.Name,
                     Count = wd.Count
                 }).ToList();
-            // var list = (
-            //     from stockDetails in _dbContext.StockDetails
-            //     join stocks in _dbContext.Stocks
-            //         on stockDetails.StockId equals stocks.Id
-            //     join details in _dbContext.Details
-            //         on stockDetails.DetailId equals details.Id
-            //     join workDetails in _dbContext.WorkDetails
-            //         on stockDetails.DetailId equals workDetails.DetailId
-            //     join works in _dbContext.Works 
-            //         on workDetails.WorkId equals works.Id
-            //     where workDetails.WorkId == SelectedWork.Id
-            //     select new StockDetailView
-            //     {
-            //         Id = stockDetails.Id,
-            //         StockName = stocks.Name,
-            //         DetailName = details.Name,
-            //         Count = stockDetails.CountDetail
-            //     }).ToList();
             return list;
         }
         

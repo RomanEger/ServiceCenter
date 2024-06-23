@@ -43,7 +43,7 @@ public class ServiceCenterDbContext : DbContext
 
     public ServiceCenterDbContext()
     {
-        //Database.Migrate();
+        Database.Migrate();
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

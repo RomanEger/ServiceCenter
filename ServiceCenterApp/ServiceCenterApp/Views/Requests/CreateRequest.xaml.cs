@@ -5,9 +5,6 @@ using System.Windows.Controls;
 
 namespace ServiceCenterApp.Views.Requests
 {
-    /// <summary>
-    /// Логика взаимодействия для CreateRequest.xaml
-    /// </summary>
     public partial class CreateRequest : Page
     {
         public CreateRequest()

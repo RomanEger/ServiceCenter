@@ -5,9 +5,6 @@ using System.Windows.Controls;
 
 namespace ServiceCenterApp.Views.Clients
 {
-    /// <summary>
-    /// Логика взаимодействия для ClientsList.xaml
-    /// </summary>
     public partial class ClientsList : Page
     {
         public ClientsList()

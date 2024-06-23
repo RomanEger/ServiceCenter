@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using Microsoft.EntityFrameworkCore;
 using ServiceCenterApp.Commands;
 using ServiceCenterApp.Models;
 using ServiceCenterApp.ReportViews;
@@ -82,7 +81,6 @@ public class StockViewModel : ViewModelBase
         {
             _stock = value;
             var sId = _dbContext.Stocks.Where(x => x.Name == value).Select(x => x.Id).FirstOrDefault();
-            //StockDetail.StockId = sId;
             OnPropertyChanged();
         }
     }
@@ -96,7 +94,6 @@ public class StockViewModel : ViewModelBase
         {
             _selectedDetail = value;
             Detail = _dbContext.Details.FirstOrDefault(x => x.Name == _selectedDetail) ?? new();
-            //StockDetail.DetailId = Detail.Id;
             OnPropertyChanged();
         }
     }

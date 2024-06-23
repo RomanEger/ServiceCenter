@@ -6,9 +6,6 @@ using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace ServiceCenterApp.Views.Requests
 {
-    /// <summary>
-    /// Логика взаимодействия для RequestsList.xaml
-    /// </summary>
     public partial class RequestsList : Page
     {
         public RequestsList()

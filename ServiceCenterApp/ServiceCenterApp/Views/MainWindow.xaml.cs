@@ -5,7 +5,6 @@ using ServiceCenterApp.Views.Reports;
 using ServiceCenterApp.Views.Requests;
 using ServiceCenterApp.Views.Stock;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using ServiceCenterApp.Views.Auth;
 
 namespace ServiceCenterApp.Views;

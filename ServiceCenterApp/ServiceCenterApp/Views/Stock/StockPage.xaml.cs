@@ -5,9 +5,6 @@ using System.Windows.Controls;
 
 namespace ServiceCenterApp.Views.Stock
 {
-    /// <summary>
-    /// Логика взаимодействия для Stock.xaml
-    /// </summary>
     public partial class StockPage : Page
     {
         public StockPage()
